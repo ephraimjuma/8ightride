@@ -38,7 +38,7 @@ router.get('/',function(req,res){
     db.getAllDriver(function(err,result){
         if(err)
         throw err;
-        res.render('drivers.ejs',{list : result})
+        res.render('driver.ejs',{list : result})
     });
     
 });
@@ -103,7 +103,7 @@ router.post('/delete_driver/:id',function(req,res){
     var id = req.params.id;
     db.deleteDriver(id,function(err,result){
 
-        res.redirect('/drivers');
+        res.redirect('/driver');
     });
 });
 
