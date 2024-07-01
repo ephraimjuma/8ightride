@@ -4,11 +4,11 @@ UniRide is a ride-sharing platform designed specifically for university students
 
 ## Table of Contents
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Features](##features)
+- [Installation](##installation)
+- [Usage](##usage)
+- [Contributing](##contributing)
+- [License](##license)
 
 ## Features
 
@@ -85,4 +85,4 @@ We welcome contributions to UniRide to improve functionality and user experience
 Please adhere to the project's coding style and conventions when submitting code.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE] LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
