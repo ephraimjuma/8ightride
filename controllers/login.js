@@ -1,5 +1,6 @@
 var express = require ('express');
 var home = require('./home');
+var user = require('./user');
 var mysql =require('mysql');
 var session = require ('express-session');
 var router = express.Router();
@@ -7,7 +8,6 @@ var bodyParser = require('body-parser');
 var db = require.main.require ('./models/db_controller');
 var  sweetalert = require('sweetalert2');
 const { check, validationResult } = require('express-validator');
-
 
 
 
@@ -50,33 +50,32 @@ router.post('/',[
     var username = request.body.username;
     var password = request.body.password;
 
-    if (username && password){
-        con.query('select * from users where username = ? and password = ?' , [username, password], function(error , results , fields){
-            if (results.length > 0){
-                
-                request.session.loggedin = true ; 
-                request.session.username = username;
-                response.cookie('username' , username);
-                var status = results[0].email_status;
-                if (status=="not_verified" ){
-                    response.send("please verify your email");
+    if (username && password) {
+        con.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+            if (results.length > 0) {
+                var user = results[0];
+                request.session.loggedin = true;
+                request.session.user = {
+                    id: user.id,
+                    username: user.username,
+                    role: user.role
+                };
+                response.cookie('username', username);
+                var status = user.email_status;
+                if (status == "not_verified") {
+                    response.json({ success: false, message: "Please verify your email." });
+                } else {
+                    response.json({ success: true, role: user.role });
                 }
-                else{
-                    sweetalert.fire('logged In!');
-                    response.redirect('/home');
-                }
-               
-            }else{
-                response.send('Incorrect username / password');
+            } else {
+                response.json({ success: false, message: "Incorrect username or password." });
             }
-            response.end();
         });
-
-    }else{
-        response.send('please enter user name and password');
-        response.end();
+    } else {
+        response.json({ success: false, message: "Please enter username and password." });
     }
-
 });
 
 module.exports = router;
+
+   

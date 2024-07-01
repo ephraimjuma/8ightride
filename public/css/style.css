@@ -39,67 +39,67 @@ input:hover, input:focus {
 
 /* line 18, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
 .section_padding {
-  padding: 140px 0px;
+  padding: 70px 0px;
 }
 
-@media only screen and (min-width: 992px) and (max-width: 1200px) {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 18, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .section_padding {
-    padding: 80px 0px;
+    padding: 40px 0px;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 18, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .section_padding {
-    padding: 70px 0px;
+    padding: 35px 0px;
   }
 }
 
 @media (max-width: 576px) {
   /* line 18, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .section_padding {
-    padding: 70px 0px;
+    padding: 35px 0px;
   }
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   /* line 18, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .section_padding {
-    padding: 70px 0px;
+    padding: 35px 0px;
   }
 }
 
 /* line 33, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
 .single_padding_top {
-  padding-top: 140px !important;
+  padding-top: 70px !important;
 }
 
-@media only screen and (min-width: 992px) and (max-width: 1200px) {
+@media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 33, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .single_padding_top {
-    padding-top: 70px !important;
+    padding-top: 35px !important;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* line 33, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .single_padding_top {
-    padding-top: 70px !important;
+    padding-top: 35px !important;
   }
 }
 
 @media (max-width: 576px) {
   /* line 33, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .single_padding_top {
-    padding-top: 70px !important;
+    padding-top: 35px !important;
   }
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   /* line 33, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .single_padding_top {
-    padding-top: 80px !important;
+    padding-top: 40px !important;
   }
 }
 
@@ -451,10 +451,10 @@ ul {
   position: relative;
 }
 
-@media only screen and (min-width: 1200px) and (max-width: 3640px) {
+@media only screen and (min-width: 768px) and (max-width: 992px) {
   /* line 245, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_common.scss */
   .container {
-    max-width: 1170px;
+    max-width: 992px;
   }
 }
 
@@ -2073,7 +2073,7 @@ ul {
 }
 
 /* line 1, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment {
+.our_department {
   background-image: url("../img/review_bg.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -2084,13 +2084,13 @@ ul {
 
 @media (max-width: 991px) {
   /* line 1, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment {
+  .our_department {
     padding: 70px 0 30px;
   }
 }
 
 /* line 12, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment:after {
+.our_department:after {
   position: absolute;
   content: "";
   left: 0;
@@ -2103,7 +2103,7 @@ ul {
 }
 
 /* line 24, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .depertment_content {
+.our_department .department_content {
   background-color: #fff;
   padding: 100px 0;
   margin-top: -652px;
@@ -2111,7 +2111,7 @@ ul {
 
 @media (max-width: 991px) {
   /* line 24, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment .depertment_content {
+  .our_department .department_content {
     margin-top: 0;
     background-color: transparent;
     padding: 0;
@@ -2120,14 +2120,14 @@ ul {
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 24, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment .depertment_content {
+  .our_department .department_content {
     margin-top: -170px;
     padding: 80px 15px 20px;
   }
 }
 
 /* line 39, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .depertment_content h2 {
+.our_department .department_content h2 {
   font-size: 44px;
   line-height: 30px;
   font-weight: 700;
@@ -2136,7 +2136,7 @@ ul {
 
 @media (max-width: 991px) {
   /* line 39, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment .depertment_content h2 {
+  .our_department .department_content h2 {
     margin-bottom: 60px;
     color: #fff;
     line-height: 50px;
@@ -2145,13 +2145,13 @@ ul {
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 39, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment .depertment_content h2 {
+  .our_department .department_content h2 {
     font-size: 35px;
   }
 }
 
 /* line 57, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment {
+.our_department .single_our_department {
   position: relative;
   border: 1px solid #f2f6f8;
   padding: 60px 15px 32px;
@@ -2164,7 +2164,7 @@ ul {
 
 @media (max-width: 991px) {
   /* line 57, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-  .our_depertment .single_our_depertment {
+  .our_department .single_our_department {
     margin-top: 0;
     background-color: #fff;
     margin-bottom: 40px;
@@ -2172,7 +2172,7 @@ ul {
 }
 
 /* line 72, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment .our_depertment_icon {
+.our_department .single_our_department .our_department_icon {
   height: 50px;
   width: 50px;
   background-color: #f2f6f8;
@@ -2187,12 +2187,12 @@ ul {
 }
 
 /* line 85, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment .our_depertment_icon img {
+.our_department .single_our_department .our_department_icon img {
   max-width: 25px;
 }
 
 /* line 90, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment h4 {
+.our_department .single_our_department h4 {
   font-size: 22px;
   font-weight: 500;
   line-height: 17px;
@@ -2204,7 +2204,7 @@ ul {
 }
 
 /* line 98, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment p {
+.our_department .single_our_department p {
   -webkit-transition: 1s;
   -moz-transition: 1s;
   -o-transition: 1s;
@@ -2212,14 +2212,14 @@ ul {
 }
 
 /* line 102, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment:hover {
+.our_department .single_our_department:hover {
   background-color: #0065e1;
   border: 1px solid #0065e1;
 }
 
 /* line 106, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_our_depertment.scss */
-.our_depertment .single_our_depertment:hover h4,
-.our_depertment .single_our_depertment:hover p {
+.our_department .single_our_department:hover h4,
+.our_department .single_our_department:hover p {
   color: #fff;
 }
 
@@ -5960,7 +5960,7 @@ h1, h2, h3, h4, h5, h6 {
   background-image: url("../img/breadcrumb.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-size: inherit;
 }
 
@@ -5968,12 +5968,12 @@ h1, h2, h3, h4, h5, h6 {
 .breadcrumb_part {
   position: relative;
   z-index: 1;
-  height: 400px;
+  height: 200px;
 }
 
 /* line 10, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_breadcrumb.scss */
 .breadcrumb_part .breadcrumb_iner {
-  height: 400px;
+  height: 200px;
   width: 100%;
   display: table;
 }
