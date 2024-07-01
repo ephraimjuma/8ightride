@@ -12,7 +12,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -93,7 +92,6 @@ CREATE TABLE `driver` (
   `phone` varchar(20) NOT NULL,
   `image` text NOT NULL,
   `department` varchar(50) NOT NULL
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -110,7 +108,6 @@ CREATE TABLE `employee` (
   `salary` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 --
 -- Table structure for table `leaves`
 --
@@ -125,7 +122,6 @@ CREATE TABLE `leaves` (
   `reason` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 --
 -- Table structure for table `login`
 --
@@ -136,7 +132,6 @@ CREATE TABLE `login` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 --
 -- Table structure for table `store`
@@ -197,6 +192,11 @@ CREATE TABLE `users` (
   `email_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Add the role column to the users table
+ALTER TABLE `users`
+ADD COLUMN `role` VARCHAR(20) NOT NULL DEFAULT 'user';
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `verify`
 --
@@ -223,7 +223,7 @@ INSERT INTO `verify` (`id`, `username`, `email`, `token`) VALUES
 --
 
 --
--- Indexes for table `appointment`
+-- Indexes for table `ride`
 --
 ALTER TABLE `ride`
   ADD PRIMARY KEY (`id`);
@@ -241,7 +241,7 @@ ALTER TABLE `departments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `doctor`
+-- Indexes for table `driver`
 --
 ALTER TABLE `driver`
   ADD PRIMARY KEY (`id`);
@@ -287,7 +287,7 @@ ALTER TABLE `verify`
 --
 
 --
--- AUTO_INCREMENT for table `appointment`
+-- AUTO_INCREMENT for table `ride`
 --
 ALTER TABLE `ride`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
@@ -305,7 +305,7 @@ ALTER TABLE `departments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `doctor`
+-- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;

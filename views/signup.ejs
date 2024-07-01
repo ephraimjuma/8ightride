@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- register24:03-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -11,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -18,12 +18,12 @@
 </head>
 
 <body>
-    <div class="main-wrapper  account-wrapper">
+    <div class="main-wrapper account-wrapper">
         <div class="account-page">
             <div class="account-center">
                 <div class="account-box">
-                    <form action="" method="Post" class="form-signin">
-						<div class="account-logo">
+                    <form id="signupForm" method="POST" class="form-signin">
+                        <div class="account-logo">
                             <a href="index-2.html"><img src="assets/img/logo-dark.png" alt=""></a>
                         </div>
                         <div class="form-group">
@@ -37,11 +37,13 @@
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" class="form-control" name="password">
+                            <small class="form-text text-muted">
+                                Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.
+                            </small>
                         </div>
-                        
                         <div class="form-group checkbox">
                             <label>
-                                <input type="checkbox"> I have read and agree the Terms & Conditions
+                                <input type="checkbox"> I have read and I agree to the Terms & Conditions
                             </label>
                         </div>
                         <div class="form-group text-center">
@@ -58,11 +60,46 @@
         </div>
     </div>
     <script src="assets/js/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function(){
+            $('#signupForm').on('submit', function(event){
+                event.preventDefault(); // Prevent the default form submission
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup', // Change this URL if needed
+                    data: $(this).serialize(),
+                    success: function(response){
+                        if(response.success){
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(){
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred. Please try again.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
 </body>
-
-
-<!-- register24:03-->
 </html>
