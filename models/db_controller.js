@@ -572,4 +572,3 @@ module.exports.signup = function (username, email, password, status, callback) {
     con.query(query, callback);
   };
 
-  

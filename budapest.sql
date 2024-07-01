@@ -48,6 +48,16 @@ CREATE TABLE `ride` (
 -- Table structure for table `complain`
 --
 
+CREATE TABLE `booking` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `ride_id` INT NOT NULL,
+    `booking_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (ride_id) REFERENCES ride(id)
+);
+
+
 CREATE TABLE `complain` (
   `id` int(10) NOT NULL,
   `message` varchar(500) NOT NULL,

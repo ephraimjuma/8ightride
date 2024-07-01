@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Taxi</title>
+    <title>UniRide</title>
     <link rel="icon" href="img/favicon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -91,7 +91,7 @@
                             </li>
                             </ul>
                         </div>
-                        <a class="btn_2 d-none d-lg-block" href="#">HOT LINE- 09856</a>
+                        <a class="btn_2 d-none d-lg-block" href="/booking">BOOK RIDE</a>
                     </nav>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                 elit sed do eiusmod tempor incididunt ut labore et dolore
                                 magna aliqua. Quis ipsum suspendisse ultrices gravida.Risus cmodo viverra </p>
-                            <a href="#" class="btn_2">Make an booking</a>
+                            <a href="/booking" class="btn_2">Make booking</a>
 
                         </div>
                     </div>
@@ -125,6 +125,22 @@
         </div>
     </section>
     <!-- banner part start-->
+
+    <!-- Google Pay Button -->
+    <section class="google_pay_section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-center">Pay with Google Pay</h2>
+                    <div id="container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Google Pay Button End -->
+
+    <!-- <div class="visme_d" data-title="Website Sign Up Form" data-url="jwyq4z41-website-sign-up-form?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="79769"></div><script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script> -->
+    <!-- <div class="visme_d" data-title="Website Sign Up Form" data-url="jwyq4z41-website-sign-up-form?sidebar=true" data-domain="forms" data-full-page="false" data-min-height="600px" data-form-id="79769"></div><script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script> -->
 
     <!-- about us part start-->
     <section class="about_us padding_top">
@@ -598,6 +614,75 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/contact.js"></script>
     <!-- custom js -->
     <script src="js/custom.js"></script>
+
+
+     <!-- Google Pay API -->
+     <script async
+     src="https://pay.google.com/gp/p/js/pay.js"
+     onload="onGooglePayLoaded()"></script>
+
+ <script>
+     function onGooglePayLoaded() {
+         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+         const button = paymentsClient.createButton({
+             buttonColor: 'black',
+             buttonType: 'buy',
+             onClick: onGooglePayButtonClicked
+         });
+         document.getElementById('container').appendChild(button);
+     }
+
+     function onGooglePayButtonClicked() {
+         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+         const paymentDataRequest = getGooglePaymentDataRequest();
+         paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
+             // handle the response
+             processPayment(paymentData);
+         }).catch(function(err) {
+             // show error in developer console for debugging
+             console.error(err);
+         });
+     }
+
+     function getGooglePaymentDataRequest() {
+         const paymentDataRequest = {
+             // Required
+             apiVersion: 2,
+             apiVersionMinor: 0,
+             allowedPaymentMethods: [{
+                 type: 'CARD',
+                 parameters: {
+                     allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                     allowedCardNetworks: ['MASTERCARD', 'VISA']
+                 },
+                 tokenizationSpecification: {
+                     type: 'PAYMENT_GATEWAY',
+                     parameters: {
+                         gateway: 'example',
+                         gatewayMerchantId: 'exampleGatewayMerchantId'
+                     }
+                 }
+             }],
+             merchantInfo: {
+                 merchantId: '12345678901234567890',
+                 merchantName: 'Example Merchant'
+             },
+             transactionInfo: {
+                 totalPriceStatus: 'FINAL',
+                 totalPrice: '123.45',
+                 currencyCode: 'USD'
+             }
+         };
+         return paymentDataRequest;
+     }
+
+     function processPayment(paymentData) {
+         // handle the response
+         // For example, send the payment data to your server
+         console.log(paymentData);
+     }
+ </script>
+
 </body>
 
 </html>
