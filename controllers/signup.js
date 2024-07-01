@@ -24,7 +24,7 @@ router.post(
   function (req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+      return res.status(422).json({ success: false, message: "Validation errors", errors: errors.array() });
     }
     var email_status = "not_verified";
     var email = req.body.email;
@@ -41,26 +41,19 @@ router.post(
     db.verify(req.body.username, email, token);
 
     db.getuserid(email, function (err, result) {
+      if (err) {
+        return res.json({ success: false, message: "An error occurred while fetching user ID." });
+      }
       var id = result[0].id;
-      var output =
-        `
-            <p>Dear  ` +
-        username +
-        `, </p>
-            <p>Thanks for sign up. Your verification id and token is given below :  </p>
-           
+      var output = `
+            <p>Dear ${username}, </p>
+            <p>Thanks for signing up. Your verification id and token is given below:</p>
             <ul>
-                <li>User ID: ` +
-        id +
-        `</li>
-                <li>Token: ` +
-        token +
-        `</li>
+                <li>User ID: ${id}</li>
+                <li>Token: ${token}</li>
             </ul>
-            <p>verify Link: <a href="http://localhost:3000/verify">Verify</a></p>
-            
+            <p>Verify Link: <a href="http://localhost:3000/verify">Verify</a></p>
             <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
-            
             <p>Regards,</p>
             <p>HR Manager</p>
         `;
@@ -86,10 +79,8 @@ router.post(
         console.log(info);
       });
 
-      res.send("Check you email for token to verify");
+      res.send({ success: true, message: "Check your email for the token to verify" });
     });
-
-    // res.redirect('login');
   }
 );
 

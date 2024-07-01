@@ -1,6 +1,6 @@
 const express = require ('express');
 const session = require ('express-session');
-const cookie = require ('cookie-parser');
+const cookieParser = require ('cookie-parser');
 const path = require ('path');
 const ejs= require ('ejs');
 const multer = require('multer');
@@ -30,6 +30,7 @@ const landing = require ('./controllers/landing');
 const complain = require ('./controllers/complain');
 const inbox = require ('./controllers/inbox');
 const ride = require ('./controllers/ride');
+const user = require('./controllers/user');
 
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
@@ -40,12 +41,21 @@ app.set('view engine ', 'ejs');
 app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
-app.use(cookie());
+app.use(cookieParser());
+
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+}));
+
 
 var server =app.listen(3000 , function(){
 
     console.log('Server Started');
 });
+
 
 app.use('/login' ,login);
 app.use('/home' , home);
@@ -62,3 +72,4 @@ app.use ('/complain',complain);
 app.use ('/inbox',inbox);
 app.use ('/ride',ride);
 app.use('/receipt',receipt);
+app.use('/user', user);
