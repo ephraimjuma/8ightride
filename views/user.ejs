@@ -563,6 +563,73 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/contact.js"></script>
     <!-- custom js -->
     <script src="js/custom.js"></script>
+
+     <!-- Google Pay API -->
+     <script async
+     src="https://pay.google.com/gp/p/js/pay.js"
+     onload="onGooglePayLoaded()"></script>
+
+ <script>
+     function onGooglePayLoaded() {
+         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+         const button = paymentsClient.createButton({
+             buttonColor: 'black',
+             buttonType: 'buy',
+             onClick: onGooglePayButtonClicked
+         });
+         document.getElementById('container').appendChild(button);
+     }
+
+     function onGooglePayButtonClicked() {
+         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+         const paymentDataRequest = getGooglePaymentDataRequest();
+         paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
+             // handle the response
+             processPayment(paymentData);
+         }).catch(function(err) {
+             // show error in developer console for debugging
+             console.error(err);
+         });
+     }
+
+     function getGooglePaymentDataRequest() {
+         const paymentDataRequest = {
+             // Required
+             apiVersion: 2,
+             apiVersionMinor: 0,
+             allowedPaymentMethods: [{
+                 type: 'CARD',
+                 parameters: {
+                     allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                     allowedCardNetworks: ['MASTERCARD', 'VISA']
+                 },
+                 tokenizationSpecification: {
+                     type: 'PAYMENT_GATEWAY',
+                     parameters: {
+                         gateway: 'example',
+                         gatewayMerchantId: 'exampleGatewayMerchantId'
+                     }
+                 }
+             }],
+             merchantInfo: {
+                 merchantId: '12345678901234567890',
+                 merchantName: 'Example Merchant'
+             },
+             transactionInfo: {
+                 totalPriceStatus: 'FINAL',
+                 totalPrice: '123.45',
+                 currencyCode: 'USD'
+             }
+         };
+         return paymentDataRequest;
+     }
+
+     function processPayment(paymentData) {
+         // handle the response
+         // For example, send the payment data to your server
+         console.log(paymentData);
+     }
+ </script>
 </body>
 
 </html>
