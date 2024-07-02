@@ -25,94 +25,159 @@
     <link rel="stylesheet" href="css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .navbar-nav .nav-link {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .welcome-user {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .profile-icon {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-
-        .profile-icon:hover,
-        .nav-link:hover {
-            color: #ff7f50;
-        }
-
-        .dropdown-menu .dropdown-item:hover {
-            background-color: #f1f1f1;
-            color: #343a40;
-        }
-
-        .profile_img img {
-            border-radius: 50%;
-        }
-
-        .btn-upload {
-            background-color: #4892dc;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn-upload:hover {
-            background-color: #ff7f50;
-        }
-    </style>
-</head>
-
-<body>
-    <!--::header part start::-->
-    <header class="main_menu home_menu" style="padding: 10px 0; background-color: #4892dc;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="#"> <img src="img/logo.png" alt="logo" style="height: 40px;"> </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-                            <div class="navbar-nav">
-                                <span class="welcome-user">Welcome, <%= username %></span>
-                            </div>
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/complain">Complain</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/logout">Log Out</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <span class="profile-icon dropdown-toggle" id="profileDropdown"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-user"></i>
-                                    </span>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                                        <a class="dropdown-item" href="#">Edit Profile</a>
-                                    </div>
-                                </li>
-                            </ul>
+    <head>
+        <style>
+            .navbar-nav .nav-link {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000;
+            }
+    
+            .welcome-user {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000;
+            }
+    
+            .profile-icon {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000;
+                cursor: pointer;
+                margin-left: 15px;
+            }
+    
+            .profile-icon:hover,
+            .nav-link:hover {
+                color: #ff7f50;
+            }
+    
+            .dropdown-menu .dropdown-item:hover {
+                background-color: #f1f1f1;
+                color: #343a40;
+            }
+    
+            .profile_img img {
+                border-radius: 50%;
+            }
+    
+            .btn-upload {
+                background-color: #4892dc;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            .btn-upload:hover {
+                background-color: #ff7f50;
+            }
+    
+            .main_menu {
+                padding: 10px 0;
+                background-color: #fff;
+                color: #000;
+            }
+    
+            .main_menu .navbar {
+                padding: 0;
+            }
+    
+            .main_menu .navbar-brand img {
+                max-height: 40px;
+            }
+    
+            .main_menu .navbar-nav .nav-item .nav-link {
+                padding: 10px 15px;
+                font-size: 16px;
+                color: #000;
+            }
+    
+            .main_menu .navbar-toggler {
+                padding: 5px 10px;
+            }
+    
+            .navbar-light .navbar-nav .nav-link {
+                color: #000;
+            }
+    
+            .navbar-light .navbar-nav .nav-link:hover {
+                color: #ddd;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <!--::header part start::-->
+        <header class="main_menu home_menu">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12">
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+    
+                            <div class="collapse navbar-collapse main-menu-item justify-content-center"
+                                id="navbarSupportedContent">
+                                <ul class="navbar-nav align-items-center">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="landing">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="about.html">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="driver">Drivers</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown"
+                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Pages
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="services.html">Services</a>
+                                            <a class="dropdown-item" href="dep.html">Departments</a>
+                                            <a class="dropdown-item" href="elements.html">Elements</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
+                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Blog
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                            <a class="dropdown-item" href="blog.html">Blog</a>
+                                            <a class="dropdown-item" href="single-blog.html">Single Blog</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/complain">Complain</a>
+                                    </ul>
+                                </div>
+                                <ul class="nav user-menu float-right">
+                                    <li class="nav-item dropdown has-arrow">
+                                        <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                                            <span class="user-img">
+                                                <img class="rounded-circle" src="/assets/img/user.jpg" width="24" alt="User">
+                                                <span class="status online"></span>
+                                            </span>
+                                            <span style="color: #000; font-weight: bold;"><%= username %></span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="/home/profile">My Profile</a>
+                                            <a class="dropdown-item" href="/home/edit-profile">Edit Profile</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
+
                     </nav>
                 </div>
             </div>
@@ -138,69 +203,232 @@
                         <p><strong>Email:</strong> johndoe@example.com</p>
                         <p><strong>Phone:</strong> +123 456 7890</p>
                         <a href="#" class="btn_2">Edit Profile</a>
+
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- profile part end-->
+        </header>
+    </body>
+    <!-- Header part end-->
+    
 
     <!-- booking part start-->
-    <section class="regervation_part section_padding">
-        <div class="container">
-            <div class="row align-items-center regervation_content">
-                <div class="col-lg-6">
-                    <div class="regervation_part_iner">
-                        <form>
-                            <h2>Book a Ride</h2>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="inputName" placeholder="Name">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email address">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectService">
-                                        <option value="1" selected>Select service</option>
-                                        <option value="2">Service 1</option>
-                                        <option value="3">Service 2</option>
-                                        <option value="4">Service 3</option>
-                                        <option value="5">Service 4</option>
-                                    </select>
-                                </div>
-                                <div class="form-group time_icon col-md-6">
-                                    <select class="form-control" id="SelectTime">
-                                        <option value="" selected>Time</option>
-                                        <option value="1">8 AM TO 10 AM</option>
-                                        <option value="2">10 AM TO 12 PM</option>
-                                        <option value="3">12 PM TO 2 PM</option>
-                                        <option value="4">2 PM TO 4 PM</option>
-                                        <option value="5">4 PM TO 6 PM</option>
-                                        <option value="6">6 PM TO 8 PM</option>
-                                        <option value="7">8 PM TO 10 PM</option>
-                                        <option value="8">10 PM TO 12 AM</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="inputNote" rows="4" placeholder="Your Note"></textarea>
+<section class="regervation_part section_padding">
+    <div class="container">
+        <div class="row align-items-center regervation_content">
+            <div class="col-lg-6">
+                <div class="regervation_part_iner">
+                    <form id="bookingForm">
+                        <h2>Book a Ride</h2>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="inputName" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="email" class="form-control" id="inputEmail" placeholder="Email address">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="inputPhone" placeholder="Phone Number">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="SelectService">
+                                    <option value="1" selected>Select service</option>
+                                    <option value="2">Regular Ride</option>
+                                    <option value="3">Carpool</option>
+                                    <option value="4">Express Ride</option>
+                                    <option value="5">Wheelchair Accessible</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="SelectPickupLocation">
+                                    <option value="" selected>Pick-up Location</option>
+                                    <option value="1">Nairobi CBD</option>
+                                    <option value="2">Westlands</option>
+                                    <option value="3">Kilimani</option>
+                                    <option value="4">Lavington</option>
+                                    <option value="5">Karen</option>
+                                    <option value="6">Ngong Road</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="SelectDropoffLocation">
+                                    <option value="" selected>Drop-off Location</option>
+                                    <option value="1">University of Nairobi</option>
+                                    <option value="2">Kenyatta University</option>
+                                    <option value="3">Strathmore University</option>
+                                    <option value="4">USIU</option>
+                                    <option value="5">JKUAT</option>
+                                    <option value="6">Daystar University</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="SelectPickupTime">
+                                    <option value="" selected>Pickup Time</option>
+                                    <option value="1">8 AM TO 10 AM</option>
+                                    <option value="2">10 AM TO 12 PM</option>
+                                    <option value="3">12 PM TO 2 PM</option>
+                                    <option value="4">2 PM TO 4 PM</option>
+                                    <option value="5">4 PM TO 6 PM</option>
+                                    <option value="6">6 PM TO 8 PM</option>
+                                    <option value="7">8 PM TO 10 PM</option>
+                                    <option value="8">10 PM TO 12 AM</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="SelectDropoffTime">
+                                    <option value="" selected>Drop-off Time</option>
+                                    <option value="1">8 AM TO 10 AM</option>
+                                    <option value="2">10 AM TO 12 PM</option>
+                                    <option value="3">12 PM TO 2 PM</option>
+                                    <option value="4">2 PM TO 4 PM</option>
+                                    <option value="5">4 PM TO 6 PM</option>
+                                    <option value="6">6 PM TO 8 PM</option>
+                                    <option value="7">8 PM TO 10 PM</option>
+                                    <option value="8">10 PM TO 12 AM</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="DaysOfWeek">Days of the Week:</label>
+                                <div id="DaysOfWeek">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Monday" value="Monday">
+                                        <label class="form-check-label" for="Monday">Monday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Tuesday" value="Tuesday">
+                                        <label class="form-check-label" for="Tuesday">Tuesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Wednesday" value="Wednesday">
+                                        <label class="form-check-label" for="Wednesday">Wednesday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Thursday" value="Thursday">
+                                        <label class="form-check-label" for="Thursday">Thursday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Friday" value="Friday">
+                                        <label class="form-check-label" for="Friday">Friday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Saturday" value="Saturday">
+                                        <label class="form-check-label" for="Saturday">Saturday</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Sunday" value="Sunday">
+                                        <label class="form-check-label" for="Sunday">Sunday</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="regerv_btn">
-                                <a href="#" class="btn_2">Book a Ride</a>
+                            <div class="form-group col-md-12">
+                                <textarea class="form-control" id="inputNote" rows="4" placeholder="Your Note (e.g., special requirements, preferred route)"></textarea>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="regerv_btn">
+                            <a href="#" class="btn_2" onclick="confirmBooking()">Book a Ride</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-lg-6">
-                    <div class="reservation_img">
-                        <img src="img/reservation.jpg" alt="" class="reservation_img_iner" style="width: 100%; height: auto;">
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="reservation_img">
+                    <img src="img/reservation.jpg" alt="" class="reservation_img_iner" style="width: 100%; height: auto;">
                 </div>
             </div>
         </div>
-    </section>
-    <!-- booking part end-->
+    </div>
+</section>
+<!-- booking part end-->
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Your Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmationDetails"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Module Placeholder -->
+<div id="paymentModule" style="display: none;">
+    <!-- Payment module code goes here -->
+</div>
+
+<script>
+    function confirmBooking() {
+        // Gather form data
+        var name = document.getElementById('inputName').value;
+        var email = document.getElementById('inputEmail').value;
+        var phone = document.getElementById('inputPhone').value;
+        var service = document.getElementById('SelectService').value;
+        var pickupLocation = document.getElementById('SelectPickupLocation').value;
+        var dropoffLocation = document.getElementById('SelectDropoffLocation').value;
+        var pickupTime = document.getElementById('SelectPickupTime').value;
+        var dropoffTime = document.getElementById('SelectDropoffTime').value;
+        var note = document.getElementById('inputNote').value;
+
+        var days = [];
+        var checkboxes = document.querySelectorAll('#DaysOfWeek input[type="checkbox"]:checked');
+        checkboxes.forEach((checkbox) => {
+            days.push(checkbox.value);
+        });
+
+        // Set confirmation details
+        var confirmationDetails = `
+            <strong>Name:</strong> ${name}<br>
+            <strong>Email:</strong> ${email}<br>
+            <strong>Phone:</strong> ${phone}<br>
+            <strong>Service:</strong> ${service}<br>
+            <strong>Pickup Location:</strong> ${pickupLocation}<br>
+            <strong>Dropoff Location:</strong> ${dropoffLocation}<br>
+            <strong>Pickup Time:</strong> ${pickupTime}<br>
+            <strong>Dropoff Time:</strong> ${dropoffTime}<br>
+            <strong>Days:</strong> ${days.join(', ')}<br>
+            <strong>Note:</strong> ${note}
+        `;
+        document.getElementById('confirmationDetails').innerHTML = confirmationDetails;
+
+        // Show confirmation modal
+        $('#confirmationModal').modal('show');
+    }
+
+    function proceedToPayment() {
+        // Hide confirmation modal
+        $('#confirmationModal').modal('hide');
+
+        // Show payment module
+        document.getElementById('paymentModule').style.display = 'block';
+        
+        // Additional code for payment processing can be added here
+    }
+
+</script>
+
+<!-- Google Pay Button -->
+<section class="google_pay_section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="text-center">Pay with Google Pay</h2>
+                <div id="container"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Google Pay Button End -->
+
                   
     <!-- feature part start-->
     <section class="feature_part">
