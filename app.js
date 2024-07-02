@@ -31,6 +31,7 @@ const complain = require ('./controllers/complain');
 const inbox = require ('./controllers/inbox');
 const ride = require ('./controllers/ride');
 const user = require('./controllers/user');
+const booking = require('./controllers/booking');
 
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
@@ -73,3 +74,4 @@ app.use ('/inbox',inbox);
 app.use ('/ride',ride);
 app.use('/receipt',receipt);
 app.use('/user', user);
+app.use('/booking', booking);
