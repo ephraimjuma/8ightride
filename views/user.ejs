@@ -177,6 +177,33 @@
                                 </ul>
                             </nav>
                         </div>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+    <!-- profile part start-->
+    <section class="profile_part section_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="profile_img">
+                        <img src="img/profile_pic.jpg" alt="Profile Picture" style="width: 100%; border-radius: 10px;">
+                        <input type="file" id="uploadProfilePic" style="display: none;">
+                        <button class="btn-upload" onclick="document.getElementById('uploadProfilePic').click();">Upload Profile Picture</button>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="profile_info">
+                        <h2>User Profile</h2>
+                        <p><strong>Name:</strong> <%= username %></p>
+                        <p><strong>Email:</strong> johndoe@example.com</p>
+                        <p><strong>Phone:</strong> +123 456 7890</p>
+                        <a href="#" class="btn_2">Edit Profile</a>
+
                     </div>
                 </div>
             </div>
