@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -19,8 +17,6 @@
 </head>
 
 <body>
-
-  
     <div class="main-wrapper">
         <div class="header">
 			<div class="header-left">
@@ -68,7 +64,7 @@
                                         <div class="media">
 											<span class="avatar">L</span>
 											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Driver availability module</span></p>
 												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
 											</div>
                                         </div>
@@ -79,7 +75,7 @@
                                         <div class="media">
 											<span class="avatar">G</span>
 											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Passenger and Driver communication</span></p>
 												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
 											</div>
                                         </div>
@@ -141,20 +137,20 @@
                             <a href="/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
 						<li>
-                            <a href="/driver"><i class="fa fa-user-md"></i> <span>Driver</span></a>
+                            <a href="/driver"><i class="fa fa-car"></i> <span>Driver</span></a>
                         </li>
                         <li>
-                            <a href="/passenger"><i class="fa fa-wheelchair"></i> <span>Passenger</span></a>
+                            <a href="/passenger"><i class="fa fa-user"></i> <span>Passenger</span></a>
                         </li>
                         <li>
-                            <a href="/ride"><i class="fa fa-calendar"></i> <span>Ride</span></a>
+                            <a href="/ride"><i class="fa fa-road"></i> <span>Ride</span></a>
                         </li>
                        
                         <li>
-                            <a href="/home/departments"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
+                            <a href="/home/departments"><i class="fa fa-building"></i> <span>Departments</span></a>
                         </li>
 						<li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+							<a href="#"><i class="fa fa-users"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
 								<li><a href="/employee">Employees List</a></li>
 								<li><a href="/employee/leave">Leaves</a></li>
@@ -181,17 +177,9 @@
                         </li>
                        
 						<li>
-							<a href="/store"><i class="fa fa-cube"></i> <span>Store</span></a>
+							<a href="/store"><i class="fa fa-shopping-cart"></i> <span>Store</span></a>
 						</li>
 						
-					
-                       
-                        
-                       
-                        
-                      
-                     
-                       
                     </ul>
                 </div>
             </div>
@@ -201,7 +189,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
-							<span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+							<span class="dash-widget-bg1"><i class="fa fa-car" aria-hidden="true"></i></span>
 							<div class="dash-widget-info text-right">
 								<h3><%= driver %></h3>
 								<span class="widget-title1">Driver <i class="fa fa-check" aria-hidden="true"></i></span>
@@ -210,7 +198,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
-                            <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                            <span class="dash-widget-bg2"><i class="fa fa-road"></i></span>
                             <div class="dash-widget-info text-right">
                                 <h3><%=ride%></h3>
                                 <span class="widget-title2">Ride<i class="fa fa-check" aria-hidden="true"></i></span>
@@ -219,7 +207,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
-                            <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
+                            <span class="dash-widget-bg3"><i class="fa fa-users" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
                                 <h3>72</h3>
                                 <span class="widget-title3">Attend <i class="fa fa-check" aria-hidden="true"></i></span>
@@ -228,7 +216,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
-                            <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
+                            <span class="dash-widget-bg4"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
                                 <h3>618</h3>
                                 <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
@@ -255,7 +243,7 @@
 									<h4>Passenger In</h4>
 									<div class="float-right">
 										<ul class="chat-user-total">
-											<li><i class="fa fa-circle current-users" aria-hidden="true"></i>CAB</li>
+											<li><i class="fa fa-circle current-users" aria-hidden="true"></i> CAB</li>
 											<li><i class="fa fa-circle old-users" aria-hidden="true"></i> OPD</li>
 										</ul>
 									</div>
@@ -302,10 +290,6 @@
                                                 </td>
                                                 <% } %>
 											</tr>
-											
-											
-											
-										
 										</tbody>
 									</table>
 								</div>
@@ -323,7 +307,7 @@
                                     <li>
                                         <div class="contact-cont">
                                             <div class="float-left user-img m-r-10">
-                                                <a href="profile.html" title="John Doe"><img src="/assets/images/upload_images/<%= doclist[i].image %>"" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                <a href="profile.html" title="John Doe"><img src="/assets/images/upload_images/<%= doclist[i].image %>" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
                                             </div>
                                             <div class="contact-info">
                                                 <span class="contact-name text-ellipsis"><%= driverlist[i].first_name%> <%= driverlist[i].last_name%></span>
@@ -333,10 +317,6 @@
                                         </div>
                                     </li>
                                     <% } %>
-                                    
-                                  
-                            
-                                  
                                 </ul>
                             </div>
                             <div class="card-footer text-center bg-white">
@@ -362,7 +342,7 @@
 												</td>
 												<td>Johndoe21@gmail.com</td>
 												<td>+1-202-555-0125</td>
-												<td><button class="btn btn-primary btn-primary-one float-right">Fever</button></td>
+												<td><button class="btn btn-primary btn-primary-one float-right">New</button></td>
 											</tr>
 											<tr>
 												<td>
@@ -371,7 +351,7 @@
 												</td>
 												<td>Richard123@yahoo.com</td>
 												<td>202-555-0127</td>
-												<td><button class="btn btn-primary btn-primary-two float-right">Cancer</button></td>
+												<td><button class="btn btn-primary btn-primary-two float-right">Frequent</button></td>
 											</tr>
 											<tr>
 												<td>
@@ -380,7 +360,7 @@
 												</td>
 												<td>Richard123@yahoo.com</td>
 												<td>+1-202-555-0106</td>
-												<td><button class="btn btn-primary btn-primary-three float-right">Eye</button></td>
+												<td><button class="btn btn-primary btn-primary-three float-right">Regular</button></td>
 											</tr>
 											<tr>
 												<td>
@@ -388,8 +368,8 @@
 													<h2>Martin</h2>
 												</td>
 												<td>Richard123@yahoo.com</td>
-												<td>776-2323 89562015</td>
-												<td><button class="btn btn-primary btn-primary-four float-right">Fever</button></td>
+												 <td>776-2323 89562015</td>
+												<td><button class="btn btn-primary btn-primary-four float-right">Occasional</button></td>
 											</tr>
 										</tbody>
 									</table>
@@ -446,7 +426,7 @@
 									<div class="bar">
 										<span class="percent">67%</span>
 										<div class="item-progress" data-percent="67">
-											<span class="title">Treatment</span>
+											<span class="title">Trip Completion</span>
 										</div>
 									</div>
 								</div>
@@ -682,9 +662,6 @@
     <script src="/assets/js/Chart.bundle.js"></script>
     <script src="/assets/js/chart.js"></script>
     <script src="/assets/js/app.js"></script>
-
 </body>
-
-
 
 </html>
