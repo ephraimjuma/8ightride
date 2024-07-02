@@ -6094,6 +6094,10 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
+.google_pay_section{
+  position:absolute;
+}
+
 /* line 50, ../../01 cl html template/03_jun 2019/182_medico_html/sass/_footer.scss */
 .footer-area .single-footer-widget input {
   height: 48px;

@@ -13,28 +13,43 @@ router.use((req, res, next) => {
 
 // Display available rides
 router.get('/', (req, res) => {
-    db.getAvailableRides((err, rides) => {
+    db.getallride((err, rides) => {
         if (err) {
             console.error('Error fetching available rides:', err);
             res.status(500).send('Internal Server Error');
             return;
         }
-        res.render('available_rides.ejs', { rides });
+        res.render('rides.ejs', { rides });
     });
 });
 
 // Book a ride
-router.post('/booking/:rideId', (req, res) => {
-    const ride_id = req.params.rideId;
+router.post('/booking/:ride_id', (req, res) => {
+    const ride_id = req.params.ride_id;
     const user_id = req.cookies['id']; // Assuming user id is stored in cookies
-    // Here you might want to implement logic to select an available driver
-    db.bookRide(ride_id, user_id, (err, booking) => {
+
+    // Check for available rides
+    db.getAvailableRide(ride_id, (err, availableRide) => {
         if (err) {
-            console.error('Error booking ride:', err);
-            res.status(500).send('Failed to book ride');
+            console.error('Error checking available rides:', err);
+            res.status(500).send('Internal Server Error');
             return;
         }
-        res.redirect('/booking');
+
+        if (!availableRide) {
+            res.send('No available rides found.');
+            return;
+        }
+
+        // Book the ride
+        db.bookRide(ride_id, user_id, (err, booking) => {
+            if (err) {
+                console.error('Error booking ride:', err);
+                res.status(500).send('Failed to book ride');
+                return;
+            }
+            res.send('Ride booked successfully!');
+        });
     });
 });
 

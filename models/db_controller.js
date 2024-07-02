@@ -572,3 +572,14 @@ module.exports.signup = function (username, email, password, status, callback) {
     con.query(query, callback);
   };
 
+  module.exports.booking = function (
+    id,
+    user_id,
+    ride_id,
+    booking_time,
+    callback
+  ) {
+    var query = 
+    "INSERT INTO `booking`(id, user_id, ride_id, booking_time)VALUES('"+id +"', '"+user_id +"', '"+ride_id+"', '"+booking_time+"')";
+    con.query(query, callback);
+  }
