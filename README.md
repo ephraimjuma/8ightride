@@ -4,11 +4,11 @@ UniRide is a ride-sharing platform designed specifically for university students
 
 ## Table of Contents
 
-- [Features](##features)
-- [Installation](##installation)
-- [Usage](##usage)
-- [Contributing](##contributing)
-- [License](##license)
+- [Features](##Features)
+- [Installation](##Installation)
+- [Usage](##Usage)
+- [Contributing](##Contributing)
+- [License](##License)
 
 ## Features
 
@@ -34,6 +34,7 @@ To run UniRide locally, follow these steps:
 
  ```bash
  npm install -g npm
+ npm install
  ```
 
 3. Set up environment variables:
@@ -45,12 +46,8 @@ To run UniRide locally, follow these steps:
 
 ```bash
 npm run dev
-```
-
-```bash
 node app.js
 ```
-
 5. Access UniRide at http://localhost:3000 in your browser.
 
 ## Usage
@@ -76,13 +73,22 @@ Admins can monitor feedback and ratings to maintain service quality.
 We welcome contributions to UniRide to improve functionality and user experience. To contribute:
 
 - Fork the repository.
-- Create a new branch (git checkout -b feature/awesome-feature).
+- Create a new branch
+  ```bash
+  (git checkout -b feature/awesome-feature).
+  ```
 - Implement your changes and ensure code quality.
-- Commit your changes (git commit -am 'Add awesome feature').
-- Push to the branch (git push origin feature/awesome-feature).
+- Commit your changes
+  ```bash
+  (git commit -am 'Add awesome feature')
+  ```
+- Push to the branch
+  ```bash
+  (git push origin feature/awesome-feature)
+  ```
 - Create a new Pull Request.
 
 Please adhere to the project's coding style and conventions when submitting code.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/license/mit) file for details.
