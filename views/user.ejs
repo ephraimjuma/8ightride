@@ -169,41 +169,14 @@
                                             <span style="color: #000; font-weight: bold;"><%= username %></span>
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/home/profile">My Profile</a>
-                                            <a class="dropdown-item" href="/home/edit-profile">Edit Profile</a>
+                                            <a class="dropdown-item" href="/user_profile">My Profile</a>
+                                            <a class="dropdown-item" href="/user/edit_profile">Edit Profile</a>
                                             <a class="dropdown-item" href="/logout">Logout</a>
                                         </div>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
-
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- Header part end-->
-
-    <!-- profile part start-->
-    <section class="profile_part section_padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="profile_img">
-                        <img src="img/profile_pic.jpg" alt="Profile Picture" style="width: 100%; border-radius: 10px;">
-                        <input type="file" id="uploadProfilePic" style="display: none;">
-                        <button class="btn-upload" onclick="document.getElementById('uploadProfilePic').click();">Upload Profile Picture</button>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="profile_info">
-                        <h2>User Profile</h2>
-                        <p><strong>Name:</strong> <%= username %></p>
-                        <p><strong>Email:</strong> johndoe@example.com</p>
-                        <p><strong>Phone:</strong> +123 456 7890</p>
-                        <a href="#" class="btn_2">Edit Profile</a>
-
                     </div>
                 </div>
             </div>
@@ -212,7 +185,8 @@
     <!-- Header part end-->
     
 
-    <!-- booking part start-->
+   <!-- booking part start-->
+   <form id="bookingForm" action="/user/booking" method="POST">
 <section class="regervation_part section_padding">
     <div class="container">
         <div class="row align-items-center regervation_content">
@@ -340,8 +314,8 @@
 </section>
 <!-- booking part end-->
 
-<!-- Confirmation Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <!-- Confirmation Modal -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -352,10 +326,31 @@
             </div>
             <div class="modal-body">
                 <p id="confirmationDetails"></p>
+                <p id="totalCost"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Yes</button>
+                <button type="button" class="btn btn-primary" onclick="calculateTotalCost()">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Amount Modal -->
+<div class="modal fade" id="amountModal" tabindex="-1" role="dialog" aria-labelledby="amountModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="amountModalLabel">Amount to Pay</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="amountToPay"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="onGooglePayButtonClicked()">Pay with Google Pay</button>
             </div>
         </div>
     </div>
@@ -363,10 +358,49 @@
 
 <!-- Payment Module Placeholder -->
 <div id="paymentModule" style="display: none;">
-    <!-- Payment module code goes here -->
+    <div id="container"></div>
 </div>
 
 <script>
+    const dayCost = 1000;
+
+    const serviceMapping = {
+        "1": "Select service",
+        "2": "Regular Ride",
+        "3": "Carpool",
+        "4": "Express Ride",
+        "5": "Wheelchair Accessible"
+    };
+
+    const locationMapping = {
+        "1": "Nairobi CBD",
+        "2": "Westlands",
+        "3": "Kilimani",
+        "4": "Lavington",
+        "5": "Karen",
+        "6": "Ngong Road"
+    };
+
+    const universityMapping = {
+        "1": "University of Nairobi",
+        "2": "Kenyatta University",
+        "3": "Strathmore University",
+        "4": "USIU",
+        "5": "JKUAT",
+        "6": "Daystar University"
+    };
+
+    const timeMapping = {
+        "1": "8 AM TO 10 AM",
+        "2": "10 AM TO 12 PM",
+        "3": "12 PM TO 2 PM",
+        "4": "2 PM TO 4 PM",
+        "5": "4 PM TO 6 PM",
+        "6": "6 PM TO 8 PM",
+        "7": "8 PM TO 10 PM",
+        "8": "10 PM TO 12 AM"
+    };
+
     function confirmBooking() {
         // Gather form data
         var name = document.getElementById('inputName').value;
@@ -390,11 +424,11 @@
             <strong>Name:</strong> ${name}<br>
             <strong>Email:</strong> ${email}<br>
             <strong>Phone:</strong> ${phone}<br>
-            <strong>Service:</strong> ${service}<br>
-            <strong>Pickup Location:</strong> ${pickupLocation}<br>
-            <strong>Dropoff Location:</strong> ${dropoffLocation}<br>
-            <strong>Pickup Time:</strong> ${pickupTime}<br>
-            <strong>Dropoff Time:</strong> ${dropoffTime}<br>
+            <strong>Service:</strong> ${serviceMapping[service]}<br>
+            <strong>Pickup Location:</strong> ${locationMapping[pickupLocation]}<br>
+            <strong>Dropoff Location:</strong> ${universityMapping[dropoffLocation]}<br>
+            <strong>Pickup Time:</strong> ${timeMapping[pickupTime]}<br>
+            <strong>Dropoff Time:</strong> ${timeMapping[dropoffTime]}<br>
             <strong>Days:</strong> ${days.join(', ')}<br>
             <strong>Note:</strong> ${note}
         `;
@@ -404,17 +438,80 @@
         $('#confirmationModal').modal('show');
     }
 
-    function proceedToPayment() {
-        // Hide confirmation modal
-        $('#confirmationModal').modal('hide');
+    function calculateTotalCost() {
+        var checkboxes = document.querySelectorAll('#DaysOfWeek input[type="checkbox"]:checked');
+        var numberOfDays = checkboxes.length;
+        var totalCost = numberOfDays * dayCost;
 
-        // Show payment module
-        document.getElementById('paymentModule').style.display = 'block';
-        
-        // Additional code for payment processing can be added here
+        document.getElementById('totalCost').innerHTML = `<strong>Total Cost:</strong> ${totalCost} KSH`;
+        document.getElementById('amountToPay').innerHTML = `<b>Amount to Pay: ${totalCost} KSH</b>`;
+
+        // Show amount modal
+        $('#confirmationModal').modal('hide');
+        $('#amountModal').modal('show');
     }
 
+    function onGooglePayLoaded() {
+        const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+        const button = paymentsClient.createButton({
+            buttonColor: 'black',
+            buttonType: 'buy',
+            onClick: onGooglePayButtonClicked
+        });
+        document.getElementById('container').appendChild(button);
+    }
+
+    function onGooglePayButtonClicked() {
+        const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+        const paymentDataRequest = getGooglePaymentDataRequest();
+        paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
+            // handle the response
+            processPayment(paymentData);
+        }).catch(function(err) {
+            // show error in developer console for debugging
+            console.error(err);
+        });
+    }
+
+    function getGooglePaymentDataRequest() {
+        const paymentDataRequest = {
+            // Required
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [{
+                type: 'CARD',
+                parameters: {
+                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                    allowedCardNetworks: ['MASTERCARD', 'VISA']
+                },
+                tokenizationSpecification: {
+                    type: 'PAYMENT_GATEWAY',
+                    parameters: {
+                        gateway: 'example',
+                        gatewayMerchantId: 'exampleGatewayMerchantId'
+                    }
+                }
+            }],
+            merchantInfo: {
+                merchantId: '12345678901234567890',
+                merchantName: 'Example Merchant'
+            },
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: '123.45',
+                currencyCode: 'USD'
+            }
+        };
+        return paymentDataRequest;
+    }
+
+    function processPayment(paymentData) {
+        // handle the response
+        // For example, send the payment data to your server
+        console.log(paymentData);
+    }
 </script>
+
 
 <!-- Google Pay Button -->
 <section class="google_pay_section">
@@ -428,8 +525,8 @@
     </div>
 </section>
 <!-- Google Pay Button End -->
+      
 
-                  
     <!-- feature part start-->
     <section class="feature_part">
         <div class="container">
@@ -591,72 +688,73 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- custom js -->
     <script src="js/custom.js"></script>
 
-     <!-- Google Pay API -->
-     <script async
-     src="https://pay.google.com/gp/p/js/pay.js"
-     onload="onGooglePayLoaded()"></script>
-
- <script>
-     function onGooglePayLoaded() {
-         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
-         const button = paymentsClient.createButton({
-             buttonColor: 'black',
-             buttonType: 'buy',
-             onClick: onGooglePayButtonClicked
-         });
-         document.getElementById('container').appendChild(button);
-     }
-
-     function onGooglePayButtonClicked() {
-         const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
-         const paymentDataRequest = getGooglePaymentDataRequest();
-         paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
-             // handle the response
-             processPayment(paymentData);
-         }).catch(function(err) {
-             // show error in developer console for debugging
-             console.error(err);
-         });
-     }
-
-     function getGooglePaymentDataRequest() {
-         const paymentDataRequest = {
-             // Required
-             apiVersion: 2,
-             apiVersionMinor: 0,
-             allowedPaymentMethods: [{
-                 type: 'CARD',
-                 parameters: {
-                     allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                     allowedCardNetworks: ['MASTERCARD', 'VISA']
-                 },
-                 tokenizationSpecification: {
-                     type: 'PAYMENT_GATEWAY',
-                     parameters: {
-                         gateway: 'example',
-                         gatewayMerchantId: 'exampleGatewayMerchantId'
-                     }
-                 }
-             }],
-             merchantInfo: {
-                 merchantId: '12345678901234567890',
-                 merchantName: 'Example Merchant'
-             },
-             transactionInfo: {
-                 totalPriceStatus: 'FINAL',
-                 totalPrice: '123.45',
-                 currencyCode: 'USD'
-             }
-         };
-         return paymentDataRequest;
-     }
-
-     function processPayment(paymentData) {
-         // handle the response
-         // For example, send the payment data to your server
-         console.log(paymentData);
-     }
- </script>
+      <!-- Google Pay API -->
+      <script async
+      src="https://pay.google.com/gp/p/js/pay.js"
+      onload="onGooglePayLoaded()"></script>
+ 
+  <script>
+      function onGooglePayLoaded() {
+          const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+          const button = paymentsClient.createButton({
+              buttonColor: 'black',
+              buttonType: 'buy',
+              onClick: onGooglePayButtonClicked
+          });
+          document.getElementById('container').appendChild(button);
+      }
+ 
+      function onGooglePayButtonClicked() {
+          const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+          const paymentDataRequest = getGooglePaymentDataRequest();
+          paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
+              // handle the response
+              processPayment(paymentData);
+          }).catch(function(err) {
+              // show error in developer console for debugging
+              console.error(err);
+          });
+      }
+ 
+      function getGooglePaymentDataRequest() {
+          const paymentDataRequest = {
+              // Required
+              apiVersion: 2,
+              apiVersionMinor: 0,
+              allowedPaymentMethods: [{
+                  type: 'CARD',
+                  parameters: {
+                      allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                      allowedCardNetworks: ['MASTERCARD', 'VISA']
+                  },
+                  tokenizationSpecification: {
+                      type: 'PAYMENT_GATEWAY',
+                      parameters: {
+                          gateway: 'example',
+                          gatewayMerchantId: 'exampleGatewayMerchantId'
+                      }
+                  }
+              }],
+              merchantInfo: {
+                  merchantId: '12345678901234567890',
+                  merchantName: 'Example Merchant'
+              },
+              transactionInfo: {
+                  totalPriceStatus: 'FINAL',
+                  totalPrice: '123.45',
+                  currencyCode: 'USD'
+              }
+          };
+          return paymentDataRequest;
+      }
+ 
+      function processPayment(paymentData) {
+          // handle the response
+          // For example, send the payment data to your server
+          console.log(paymentData);
+      }
+  </script>
+ 
 </body>
 
 </html>

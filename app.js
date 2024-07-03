@@ -33,10 +33,12 @@ const ride = require ('./controllers/ride');
 const user = require('./controllers/user');
 const booking = require('./controllers/booking');
 
+
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
 
-app.set('view engine ', 'ejs');
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 
 app.use(express.static('./public'));
@@ -51,6 +53,91 @@ app.use(session({
     cookie: { maxAge: 60000 }
 }));
 
+// Configure Multer
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './public/uploads/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
+// Middleware to mock req.user if not defined
+app.use((req, res, next) => {
+    if (!req.user) {
+        req.user = {
+            username: 'David',
+            email: 'misatisharly@gmail.com',
+            phone: '123-456-7890',
+            address: '123 Main St',
+            birthday: '1990-01-01',
+            gender: 'Male',
+            id: '1',
+            createdAt: new Date(),
+            profilePicture: 'https://t3.ftcdn.net/jpg/01/97/11/76/240_F_197117649_MYVpw74AYw4FmgDGC1tyM7G1xMavIShU.jpg'
+        };
+    }
+    next();
+});
+
+app.get('/user_profile', (req, res) => {
+    // Fetch updated user details from the database
+    db.getuserdetails(req.user.username, (err, results) => {
+        if (err) {
+            console.error('Error fetching user details:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        if (!results || results.length === 0) {
+            console.error('No user found for username:', req.user.username);
+            return res.status(404).send('User Not Found');
+        }
+
+        // Assuming results[0] contains the updated user details
+        const user = results[0];
+
+        // Render the user_profile.ejs template with the updated user details
+        res.render('user_profile', { user });
+    });
+});
+
+
+app.get('/user/edit_profile', (req, res) => {
+    // Render the edit_profile.ejs template
+    res.render('edit_profile', { user: req.user });
+});
+
+
+app.post('/user/update_profile', upload.single('profilePicture'), (req, res) => {
+    const updatedUser = {
+        username: req.body.username,
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        birthday: req.body.birthday,
+        gender: req.body.gender,
+        id: req.user.id,
+        createdAt: req.user.createdAt,
+        profilePicture: req.file ? req.file.filename : req.user.profilePicture
+    };
+
+     // Save updated user to the database
+     db.updateUser(req.user.id, updatedUser, (err) => {
+        if (err) {
+            console.error('Error updating user:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        // Simulate saving to session
+        req.user = updatedUser;
+
+        res.redirect('./user_profile');
+    });
+});
 
 var server =app.listen(3000 , function(){
 
@@ -75,3 +162,4 @@ app.use ('/ride',ride);
 app.use('/receipt',receipt);
 app.use('/user', user);
 app.use('/booking', booking);
+app.use('/add_driver', add_driver); 
