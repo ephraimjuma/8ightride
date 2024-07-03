@@ -48,6 +48,26 @@ module.exports.signup = function (username, email, password, status, callback) {
     con.query(query, callback);
   };
 
+  module.exports.make_bookings = function (
+    id,
+    name,
+    email,
+    phone,
+    service,
+    pickup_location,
+    dropoff_location,
+    pickup_time,
+    dropoff_time,
+    days,
+    note,
+    total_cost,
+    callback
+  ) {
+    var query = 
+    "INSERT INTO bookings(id, name, email, phone, service, pickup_location, dropoff_location, pickup_time, dropoff_time, days, note, total_cost) VALUES ('"+id +"', '"+name +"', '"+email+"', '"+phone+"','"+service +"', '"+pickup_location +"', '"+dropoff_location+"', '"+pickup_time+"','"+dropoff_time +"', '"+days+"', '"+note+"', '"+total_cost+"')";
+    con.query(query, callback);
+  }
+
   module.exports.add_driver = function (
     first_name,
     last_name,
@@ -57,11 +77,10 @@ module.exports.signup = function (username, email, password, status, callback) {
     address,
     phone,
     image,
-    department,
     callback
   ) {
     var query =
-      "INSERT INTO `driver`(`first_name`,`last_name`,`email`,`dob`,`gender`,`address`,`phone`,`image`,`department`) values ('" +
+      "INSERT INTO `driver`(`first_name`,`last_name`,`email`,`dob`,`gender`,`address`,`phone`,`image`) values ('" +
       first_name +
       "','" +
       last_name +
@@ -77,8 +96,6 @@ module.exports.signup = function (username, email, password, status, callback) {
       phone +
       "','" +
       image +
-      "','" +
-      department +
       "')";
     con.query(query, callback);
     console.log(query);
@@ -583,3 +600,24 @@ module.exports.signup = function (username, email, password, status, callback) {
     "INSERT INTO `booking`(id, user_id, ride_id, booking_time)VALUES('"+id +"', '"+user_id +"', '"+ride_id+"', '"+booking_time+"')";
     con.query(query, callback);
   }
+
+  module.exports.updateUser = function (userId, updatedUser, callback) {
+    const query = `
+        UPDATE users
+        SET username = ?, email = ?, phone = ?, address = ?, birthday = ?, gender = ?, profilePicture = ?
+        WHERE id = ?
+    `;
+    const params = [
+        updatedUser.username, updatedUser.email, updatedUser.phone,
+        updatedUser.address, updatedUser.birthday, updatedUser.gender,
+        updatedUser.profilePicture, userId
+    ];
+
+    con.query(query, params, callback);
+};
+module.exports.getuserdetails = function (username, callback) {
+  var query = "SELECT * FROM users WHERE username = ?";
+  con.query(query, [username], callback);
+};
+
+

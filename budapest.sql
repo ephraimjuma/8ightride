@@ -347,6 +347,25 @@ ALTER TABLE `verify`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
+First add this to your database:
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    service ENUM('Regular ride', 'Carpool', 'Express ride', 'Wheelchair accessible') NOT NULL,
+    pickup_location ENUM('Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6') NOT NULL,
+    dropoff_location ENUM('Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6') NOT NULL,
+    pickup_time ENUM('6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM') NOT NULL,
+    dropoff_time ENUM('6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM', '1:00 AM') NOT NULL,
+    days SET('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday') NOT NULL,
+    note TEXT,
+    total_cost DECIMAL(10, 2) NOT NULL
+);
+
+ALTER TABLE users ADD COLUMN profilePicture VARCHAR(255);
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
