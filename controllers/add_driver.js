@@ -24,7 +24,13 @@ router.get('/', function (req, res) {
     res.render('add_driver.ejs');
 });
 
-router.post('/', upload.single('image'), function (req, res) {
+router.post('/', upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'id_passport', maxCount: 1 },
+    { name: 'driving_licence', maxCount: 1 },
+    { name: 'certificate_of_good_conduct', maxCount: 1 },
+    { name: 'kcse_certificate', maxCount: 1 }
+]), function (req, res) {
     const firstName = req.body.first_name;
     const lastName = req.body.last_name;
     const email = req.body.email;
@@ -32,15 +38,19 @@ router.post('/', upload.single('image'), function (req, res) {
     const dob = req.body.dob;
     const gender = req.body.gender;
     const address = req.body.address;
-    const image = req.file ? req.file.filename : null;
+    const image = req.files['image'] ? req.files['image'][0].filename : null;
+    const idPassport = req.files['id_passport'] ? req.files['id_passport'][0].filename : null;
+    const drivingLicence = req.files['driving_licence'] ? req.files['driving_licence'][0].filename : null;
+    const certificateOfGoodConduct = req.files['certificate_of_good_conduct'] ? req.files['certificate_of_good_conduct'][0].filename : null;
+    const kcseCertificate = req.files['kcse_certificate'] ? req.files['kcse_certificate'][0].filename : null;
 
-    // Validate form data
-    if (!firstName || !lastName || !email || !phone) {
-        return res.send('First Name, Last Name, Email, and Phone are required fields.');
-    }
+   // Validate form data
+   if (!firstName || !lastName || !email || !phone || !idPassport || !drivingLicence || !certificateOfGoodConduct || !kcseCertificate) {
+    return res.send('First Name, Last Name, Email, Phone, ID/Passport, Driving Licence, Certificate of Good Conduct, and KCSE Certificate are required fields.');
+}
 
     // Add driver to the database
-    db.add_driver(firstName, lastName, email, phone, dob, gender, address, image, function (err, result) {
+    db.add_driver(firstName, lastName, email, phone, dob, gender, address, image, idPassport, drivingLicence, certificateOfGoodConduct, kcseCertificate, function (err, result) {
         if (err) {
             console.error(err);
             return res.send('An error occurred while adding the driver. Please try again later.');
