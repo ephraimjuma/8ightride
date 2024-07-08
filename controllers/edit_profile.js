@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const User = require('../models/user'); // Adjust the path to your User model
+const User = require('./controllers/user'); // Adjust the path to your User model
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -54,7 +54,7 @@ router.post('/update_profile', isAuthenticated, upload.single('profilePicture'),
         res.redirect('/user_profile?success=Profile updated successfully');
     } catch (err) {
         console.error(err);
-        res.redirect('/user/edit_profile?error=An error occurred');
+        res.redirect('/edit_profile?error=An error occurred');
     }
 });
 
