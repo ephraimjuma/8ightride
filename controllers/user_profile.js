@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const User = require('../models/user'); // Adjust the path to your User model
+const User = require('./controllers/user'); // Adjust the path to your User model
 
 // Middleware to check if the user is authenticated
 function isAuthenticated(req, res, next) {
@@ -12,7 +12,7 @@ function isAuthenticated(req, res, next) {
 }
 
 // Route to display user profile
-router.get('/user/user_profile', isAuthenticated, async (req, res) => {
+router.get('/user_profile', isAuthenticated, async (req, res) => {
     try {
         const user = await User.findById(req.user.id); // Adjust based on your user schema
         res.render('/user_profile', { user });

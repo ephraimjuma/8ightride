@@ -126,19 +126,16 @@
                                 id="navbarSupportedContent">
                                 <ul class="navbar-nav align-items-center">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="landing">Home</a>
+                                        <a class="nav-link" href="/landing">Home</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="about.html">About</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="driver">Drivers</a>
+                                        <a class="nav-link" href="driver">Become a Driver</a>
                                     </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown"
-                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Pages
-                                        </a>
+                                    
+
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" href="services.html">Services</a>
                                             <a class="dropdown-item" href="dep.html">Departments</a>
@@ -350,7 +347,7 @@
                 <p id="amountToPay"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="onGooglePayButtonClicked()">Pay with Google Pay</button>
+                <button type="button" class="btn btn-primary" onclick="initiateMpesaPayment()">Pay with M-Pesa</button>
             </div>
         </div>
     </div>
@@ -450,81 +447,43 @@
         $('#confirmationModal').modal('hide');
         $('#amountModal').modal('show');
     }
+    function formatPhoneNumber(phone) {
+        // Remove any leading '+' sign and spaces
+        let formattedPhone = phone.replace(/^\+/, '').replace(/\s+/g, '');
 
-    function onGooglePayLoaded() {
-        const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
-        const button = paymentsClient.createButton({
-            buttonColor: 'black',
-            buttonType: 'buy',
-            onClick: onGooglePayButtonClicked
-        });
-        document.getElementById('container').appendChild(button);
+        // Ensure the phone number starts with '254'
+        if (formattedPhone.startsWith('0')) {
+            formattedPhone = '254' + formattedPhone.slice(1);
+        }
+        
+        return formattedPhone;
     }
 
-    function onGooglePayButtonClicked() {
-        const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
-        const paymentDataRequest = getGooglePaymentDataRequest();
-        paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
-            // handle the response
-            processPayment(paymentData);
-        }).catch(function(err) {
-            // show error in developer console for debugging
-            console.error(err);
-        });
-    }
+    async function initiateMpesaPayment() {
+            const phone = document.getElementById('inputPhone').value;
+            const totalCost = document.getElementById('amountToPay').textContent.replace('Amount to Pay: ', '').replace(' KSH', '');
 
-    function getGooglePaymentDataRequest() {
-        const paymentDataRequest = {
-            // Required
-            apiVersion: 2,
-            apiVersionMinor: 0,
-            allowedPaymentMethods: [{
-                type: 'CARD',
-                parameters: {
-                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                    allowedCardNetworks: ['MASTERCARD', 'VISA']
+            console.log('Phone:', phone, 'Total Cost:', totalCost);
+
+            const response = await fetch('/api/payment/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                tokenizationSpecification: {
-                    type: 'PAYMENT_GATEWAY',
-                    parameters: {
-                        gateway: 'example',
-                        gatewayMerchantId: 'exampleGatewayMerchantId'
-                    }
-                }
-            }],
-            merchantInfo: {
-                merchantId: '12345678901234567890',
-                merchantName: 'Example Merchant'
-            },
-            transactionInfo: {
-                totalPriceStatus: 'FINAL',
-                totalPrice: '123.45',
-                currencyCode: 'USD'
-            }
-        };
-        return paymentDataRequest;
-    }
+                body: JSON.stringify({ amount: totalCost, phone })
+            });
 
-    function processPayment(paymentData) {
-        // handle the response
-        // For example, send the payment data to your server
-        console.log(paymentData);
-    }
-</script>
+            const data = await response.json();
+            console.log(data);
 
+            if (data.ResponseCode === '0') {
+      alert('Payment initiated successfully. Please check your phone to complete the payment.');
+         } else {
+           alert(`Payment initiation failed: ${data.errorMessage || 'Unknown error'}`);
+           }
+         }
 
-<!-- Google Pay Button -->
-<section class="google_pay_section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="text-center">Pay with Google Pay</h2>
-                <div id="container"></div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Google Pay Button End -->
+        </script>
       
 
     <!-- feature part start-->
@@ -578,6 +537,7 @@
             </div>
         </div>
     </section>
+    
     <!-- feature part end-->
 
     <!-- footer part start-->
