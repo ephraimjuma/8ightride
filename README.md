@@ -30,9 +30,9 @@ UniRide is a ride-sharing platform designed specifically for university students
 - **Admin Dashboard**: Manage users, drivers, and rides efficiently.
   
 ## Prerequisites
-- Node.js
-- npm
-- MySQL
+- [Node.js](https://nodejs.org/en/download/package-manager/current)
+- [npm](https://docs.npmjs.com/cli/v10/commands/npm-install)
+- [MySQL](https://www.mysql.com/)
   
 ## Installation
 
@@ -86,12 +86,12 @@ UniRide/
 
 ## Technologies Used
 
-- Node.js
-- Express.js
-- MySQL
-- EJS
-- Socket.io
-- Google Pay
+- [Node.js](https://nodejs.org/en/download/package-manager/current)
+- [Express.js](https://expressjs.com/en/starter/installing.html)
+- [MySQL](https://www.mysql.com/)
+- [EJS](https://ejs.co/)
+- [Socket.io](https://socket.io/get-started/chat)
+- [Daraja API](https://developer.safaricom.co.ke/APIs)
   
 ## Usage
 A brief overview of the project's directory structure:
