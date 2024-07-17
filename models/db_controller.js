@@ -231,7 +231,7 @@ module.exports.rejectDriver = function (id, callback) {
     callback
   ) {
     var query =
-      "insert into ride (passenger_name,department,driver_name,date,time,email,phone) values ('" +
+      "INSERT INTO ride (passenger_name, department, driver_name, date, time, email, phone) VALUES ('" +
       p_name +
       "','" +
       department +
@@ -248,6 +248,7 @@ module.exports.rejectDriver = function (id, callback) {
       "')";
     con.query(query, callback);
   };
+  
 
   module.exports.getallride = function (callback) {
     var query = "select * from ride";

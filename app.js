@@ -224,9 +224,41 @@ app.post('/user/update_profile', upload.single('profilePicture'), (req, res) => 
         res.redirect('/user_profile?success=Profile updated successfully');    });
 });
 
-var server =app.listen(3000 , function(){
+// Route to get the counts
+app.get('/api/getCounts', (req, res) => {
+  const driverQuery = 'SELECT COUNT(*) as count FROM ride WHERE driver_name IS NOT NULL';
+  const rideQuery = 'SELECT COUNT(*) as count FROM ride';
+  
+  con.query(driverQuery, (err, driverResult) => {
+    if (err) {
+      console.error('Error querying driver count:', err);
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    
+    con.query(rideQuery, (err, rideResult) => {
+      if (err) {
+        console.error('Error querying ride count:', err);
+        return res.status(500).json({ error: 'Database query error' });
+      }
+      
+      const counts = {
+        drivers: driverResult[0].count,
+        rides: rideResult[0].count
+      };
+      res.json(counts);
+    });
+  });
+});
 
-    console.log('Server Started');
+
+// var server =app.listen(3000 , function(){
+
+//     console.log('Server Started');
+// });
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
 
 // Middleware to check if the user is authenticated
