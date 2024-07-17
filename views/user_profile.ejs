@@ -66,6 +66,10 @@
                             <a href="/user/edit_profile"><i class="fa fa-edit"></i> <span>Edit Profile</span></a>
                         </li>
                         <li>
+                            <a href="/user/my_rides"><i class="fa fa-calendar"></i> <span>Ride</span></a>
+                        </li>
+                        
+                        <li>
                             <a href="/add_driver"><i class="fa fa-edit"></i> <span>Become a Driver</span></a>
                         </li>
 
@@ -86,8 +90,7 @@
                             <div class="profile-view">
                                 <div class="profile-img-wrap">
                                     <div class="profile-img">
-                                        <a href="#"><img class="avatar" src="/assets/img/user.jpg" alt="User"></a>
-                                    </div>
+                                        <a href="#"><img class="avatar" src="<%= user.profilePicture %>" alt="User"></a>                                    </div>
                                 </div>
                                 <div class="profile-basic">
                                     <div class="row">
