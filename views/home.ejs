@@ -16,6 +16,32 @@
 		<script src="/assets/js/html5shiv.min.js"></script>
 		<script src="/assets/js/respond.min.js"></script>
 	<![endif]-->
+    <script type='importmap'>
+        {
+          "imports": {
+            "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.15",
+            "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.15"
+          }
+        }
+      </script>
+      <script type='module'>
+        import { Calendar } from '@fullcalendar/core'
+        import dayGridPlugin from '@fullcalendar/daygrid'
+  
+        document.addEventListener('DOMContentLoaded', function() {
+          const calendarEl = document.getElementById('calendar')
+          const calendar = new Calendar(calendarEl, {
+            plugins: [dayGridPlugin],
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            }
+          })
+          calendar.render()
+        })
+      </script>
+    </head>
 </head>
 
 <body>
@@ -335,6 +361,7 @@
 						</div>
 					</div> -->
 				</div>
+                <div id='calendar'></div>
 				<div class="row">
 					<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 						<div class="card">
