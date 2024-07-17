@@ -13,6 +13,7 @@ const expressValidator = require ('express-validator');
 const  sweetalert = require('sweetalert2');
 const app = express();
 
+const con = require('./models/db_controller');
 const bodyParser = require ('body-parser');
 
 const  login = require ('./controllers/login');
@@ -261,11 +262,6 @@ app.get('/api/getCounts', (req, res) => {
   });
 });
 
-
-// var server =app.listen(3000 , function(){
-
-//     console.log('Server Started');
-// });
 
 // Start the server
 app.listen(3000, () => {
