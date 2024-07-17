@@ -17,6 +17,8 @@ con.connect(function (err) {
   }
 });
 
+module.exports = con;
+
 module.exports.signup = function (username, email, password, status, callback) {
     var query =
       "INSERT INTO `users`(`username`,`email`,`password`,`email_status`) VALUES ('" +
