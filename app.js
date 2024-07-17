@@ -110,6 +110,17 @@ const processPayment = async (amount, phoneNumber) => {
     res.status(200).send('Callback received');
   });
 
+  
+  app.post('/user/booking', (req, res) => {
+    const booking = req.body;
+    bookings.push(booking);
+    res.redirect('/user/my_rides');
+  });
+  
+  app.get('/user/my_rides', (req, res) => {
+    res.render('my_rides', { bookings });
+  });
+
 
 app.use(session({
     secret: 'your_secret_key',
