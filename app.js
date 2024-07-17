@@ -13,6 +13,7 @@ const expressValidator = require ('express-validator');
 const  sweetalert = require('sweetalert2');
 const app = express();
 
+const con = require('./models/db_controller');
 const bodyParser = require ('body-parser');
 
 const  login = require ('./controllers/login');
@@ -108,6 +109,17 @@ const processPayment = async (amount, phoneNumber) => {
     // Process the callback data
     console.log('Callback Data:', callbackData);
     res.status(200).send('Callback received');
+  });
+
+  
+  app.post('/user/booking', (req, res) => {
+    const booking = req.body;
+    bookings.push(booking);
+    res.redirect('/user/my_rides');
+  });
+  
+  app.get('/user/my_rides', (req, res) => {
+    res.render('my_rides', { bookings });
   });
 
 
@@ -250,11 +262,6 @@ app.get('/api/getCounts', (req, res) => {
   });
 });
 
-
-// var server =app.listen(3000 , function(){
-
-//     console.log('Server Started');
-// });
 
 // Start the server
 app.listen(3000, () => {
