@@ -111,16 +111,39 @@ const processPayment = async (amount, phoneNumber) => {
     res.status(200).send('Callback received');
   });
 
-  
+  const bookings = [];
   app.post('/user/booking', (req, res) => {
-    const booking = req.body;
-    bookings.push(booking);
-    res.redirect('/user/my_rides');
-  });
+    // Extract data from the request body
+    const bookingData = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        service: req.body.service,
+        pickupLocation: req.body.pickupLocation,
+        dropoffLocation: req.body.dropoffLocation,
+        pickupTime: req.body.pickupTime,
+        schoolArrivalTime: req.body.schoolArrivalTime,
+        dropoffTime: req.body.dropoffTime,
+        daysOfWeek: req.body.days,
+        note: req.body.note
+    };
   
-  app.get('/user/my_rides', (req, res) => {
-    res.render('my_rides', { bookings });
-  });
+    console.log("Received booking data:", bookingData); // Log the received data
+
+    // Save bookingData to the in-memory array
+    bookings.push(bookingData);
+
+    console.log("Current bookings:", bookings); // Log the current bookings array
+
+    // Redirect to the my_rides page
+    res.redirect('/user/my_rides');
+});
+
+app.get('/user/my_rides', (req, res) => {
+  console.log("Rendering my_rides with bookings:", bookings); // Log the bookings array when rendering the page
+  // Render the my_rides.ejs page with the bookings data
+  res.render('my_rides', { bookings });
+});
 
 
 app.use(session({

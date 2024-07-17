@@ -126,7 +126,7 @@
                                 id="navbarSupportedContent">
                                 <ul class="navbar-nav align-items-center">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="/landing">Home</a>
+                                        <a class="nav-link" href="landing.ejs">Home</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="about.html">About</a>
@@ -201,7 +201,7 @@
                                     <input type="text" class="form-control" id="inputPhone" placeholder="Phone Number">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectService">
+                                    <select class="form-control" id="SelectService" name="service">
                                         <option value="1" selected>Select service</option>
                                         <option value="2">Regular Ride</option>
                                         <option value="3">Carpool</option>
@@ -210,7 +210,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectPickupLocation">
+                                    <select class="form-control" id="SelectPickupLocation" name="pickupLocation">
                                         <option value="" selected>Pick-up Location</option>
                                         <option value="1">Nairobi CBD</option>
                                         <option value="2">Westlands</option>
@@ -230,7 +230,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectDropoffLocation">
+                                    <select class="form-control" id="SelectDropoffLocation" name="dropoffLocation">
                                         <option value="" selected>Drop-off Location</option>
                                         <option value="1">University of Nairobi</option>
                                         <option value="2">Kenyatta University</option>
@@ -244,7 +244,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectPickupTime">
+                                    <select class="form-control" id="SelectPickupTime" name="pickupTime">
                                         <option value="" selected>Pickup Time</option>
                                         <option value="1">7:00 AM - 7:30 AM</option>
                                         <option value="2">7:30 AM - 8:00 AM</option>
@@ -263,7 +263,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectSchoolArrivalTime">
+                                    <select class="form-control" id="SelectSchoolArrivalTime" name="schoolArrivalTime">
                                         <option value="" selected>University arrival time before</option>
                                         <option value="8:00 AM">8:00 AM</option>
                                         <option value="9:00 AM">9:00 AM</option>
@@ -273,7 +273,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="SelectDropoffTime">
+                                    <select class="form-control" id="SelectDropoffTime" name="dropoffTime">
                                         <option value="" selected>Pick up from university</option>
                                         <option value="2:00 PM - 2:30 PM">2:00 PM - 2:30 PM</option>
                                         <option value="2:30 PM - 3:00 PM">2:30 PM - 3:00 PM</option>
@@ -452,6 +452,20 @@
             "13": "1:00 - 1:30 PM",
             "14": "1:30 - 2:00 PM"
         };
+        const schoolArrivalTimeMapping = {
+            "1": "8:00 - 8:30 AM",
+            "2": "8:30 - 9:00 AM",
+            "3": "9:00 - 9:30 AM",
+            "4": "9:30 - 10:00 AM",
+            "5": "10:00 - 10:30 AM",
+            "6": "10:30 - 11:00 AM",
+            "7": "11:00 - 11:30 AM",
+            "8": "11:30 - 12:00 PM",
+            "9": "12:00 - 12:30 PM",
+            "10": "12:30 - 1:00 PM",
+            "11": "1:00 - 1:30 PM",
+            "12": "1:30 - 2:00 PM"
+        };
 
         const dropoffTimeMapping = {
             "1": "2:00 - 2:30 PM",
@@ -466,6 +480,7 @@
             "10": "6:30 - 7:00 PM",
             "11": "7:00 - 7:30 PM"
         };
+
 
         function confirmBooking() {
     // Gather form data
@@ -486,6 +501,11 @@
         days.push(checkbox.value);
     });
 
+    // Ensure that the mappings are used correctly
+    var pickupTimeText = pickupTimeMapping[pickupTime] || 'Not specified';
+    var schoolArrivalTimeText = schoolArrivalTime || 'Not specified';
+    var dropoffTimeText = dropoffTime || 'Not specified';
+
     // Set confirmation details
     var confirmationDetails = `
         <strong>Name:</strong> ${name}<br>
@@ -494,9 +514,9 @@
         <strong>Service:</strong> ${serviceMapping[service]}<br>
         <strong>Pickup Location:</strong> ${locationMapping[pickupLocation]}<br>
         <strong>Dropoff Location:</strong> ${universityMapping[dropoffLocation]}<br>
-        <strong>Pickup Time:</strong> ${pickupTimeMapping[pickupTime]}<br>
-        <strong>University Arrival Time:</strong> ${schoolArrivalTime}<br>
-        <strong>Pick-up from University:</strong> ${dropoffTimeMapping[dropoffTime]}<br>
+        <strong>Pickup Time:</strong> ${pickupTimeText}<br>
+        <strong>University Arrival Time:</strong> ${schoolArrivalTimeText}<br>
+        <strong>Pick-up from University:</strong> ${dropoffTimeText}<br>
         <strong>Days:</strong> ${days.join(', ')}<br>
         <strong>Note:</strong> ${note}
     `;
@@ -505,29 +525,50 @@
     // Show confirmation modal
     $('#confirmationModal').modal('show');
 }
-    function calculateTotalCost() {
-        var checkboxes = document.querySelectorAll('#DaysOfWeek input[type="checkbox"]:checked');
-        var numberOfDays = checkboxes.length;
-        var totalCost = numberOfDays * dayCost;
 
-        document.getElementById('totalCost').innerHTML = `<strong>Total Cost:</strong> ${totalCost} KSH`;
-        document.getElementById('amountToPay').innerHTML = `<b>Amount to Pay: ${totalCost} KSH</b>`;
+function calculateTotalCost() {
+    var checkboxes = document.querySelectorAll('#DaysOfWeek input[type="checkbox"]:checked');
+    var numberOfDays = checkboxes.length;
+    var totalCost = 0;
+    checkboxes.forEach((checkbox) => {
+        totalCost += dayCost[checkbox.value];
+    });
 
-        // Show amount modal
-        $('#confirmationModal').modal('hide');
-        $('#amountModal').modal('show');
+    document.getElementById('totalCost').innerHTML = `<strong>Total Cost:</strong> ${totalCost} KSH`;
+    document.getElementById('amountToPay').innerHTML = `<b>Amount to Pay: ${totalCost} KSH</b>`;
+
+    // Show amount modal
+    $('#confirmationModal').modal('hide');
+    $('#amountModal').modal('show');
+}
+
+function calculateTotalCost() {
+    var checkboxes = document.querySelectorAll('#DaysOfWeek input[type="checkbox"]:checked');
+    var numberOfDays = checkboxes.length;
+    var totalCost = 0;
+    checkboxes.forEach((checkbox) => {
+        totalCost += dayCost[checkbox.value];
+    });
+
+    document.getElementById('totalCost').innerHTML = `<strong>Total Cost:</strong> ${totalCost} KSH`;
+    document.getElementById('amountToPay').innerHTML = `<b>Amount to Pay: ${totalCost} KSH</b>`;
+
+    // Show amount modal
+    $('#confirmationModal').modal('hide');
+    $('#amountModal').modal('show');
+}
+    
+function formatPhoneNumber(phone) {
+    if (phone.startsWith('0')) {
+        phone = '254' + phone.substring(1);
+    } else if (phone.startsWith('7')) {
+        phone = '254' + phone;
+    } else if (phone.startsWith('+254')) {
+        phone = phone.substring(1);
     }
-    function formatPhoneNumber(phone) {
-        // Remove any leading '+' sign and spaces
-        let formattedPhone = phone.replace(/^\+/, '').replace(/\s+/g, '');
 
-        // Ensure the phone number starts with '254'
-        if (formattedPhone.startsWith('0')) {
-            formattedPhone = '254' + formattedPhone.slice(1);
-        }
-        
-        return formattedPhone;
-    }
+    return phone;
+}
 
     async function initiateMpesaPayment() {
             const phone = document.getElementById('inputPhone').value;

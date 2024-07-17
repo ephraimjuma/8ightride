@@ -605,7 +605,7 @@ module.exports.rejectDriver = function (id, callback) {
   module.exports.updateUser = function (userId, updatedUser, callback) {
     const query = `
         UPDATE users
-        SET username = ?, email = ?, phone = ?s, address = ?, birthday = ?, gender = ?, profilePicture = ?
+        SET username = ?, email = ?, phone = ?, address = ?, birthday = ?, gender = ?, profilePicture = ?
         WHERE id = ?
     `;
     const params = [
