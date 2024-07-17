@@ -168,9 +168,6 @@
                         <li>
                             <a href="/ride"><i class="fa fa-road"></i> <span>Ride</span></a>
                         </li>
-                        <li>
-                            <a href="/home/departments"><i class="fa fa-building"></i> <span>Departments</span></a>
-                        </li>
                         <li class="submenu">
                             <a href="#"><i class="fa fa-users"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
@@ -191,9 +188,6 @@
                                 <li><a href="/inbox">Inbox</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="/store"><i class="fa fa-shopping-cart"></i> <span>Store</span></a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -203,37 +197,19 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
-                            <span class="dash-widget-bg1"><i class="fa fa-car" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3 id="driver-count"></h3>
-                                <span class="widget-title1">Driver <i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
+							<span class="dash-widget-bg1"><i class="fa fa-car" aria-hidden="true"></i></span>
+							<div class="dash-widget-info text-right">
+								<h3><%= driver %></h3>
+								<span class="widget-title1">Driver <i class="fa fa-check" aria-hidden="true"></i></span>
+							</div>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
                             <span class="dash-widget-bg2"><i class="fa fa-road"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3 id="ride-count"></h3>
+                                <h3><%=ride%></h3>
                                 <span class="widget-title2">Ride<i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg3"><i class="fa fa-users" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>72</h3>
-                                <span class="widget-title3">Attend <i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg4"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>618</h3>
-                                <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
@@ -383,12 +359,22 @@
 					</div>
                     <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="card member-panel">
-                            <div class="card-header bg-white">
-                                <h4 class="card-title mb-0">Driver</h4>
-                            </div>
+							<div class="card-header bg-white">
+								<h4 class="card-title mb-0">Driver</h4>
+							</div>
                             <div class="card-body">
-                                <ul class="contact-list" id="driver-list">
-                                    <!-- Dynamic driver list -->
+                                <ul class="contact-list">
+                                    <% for (var i = 0; i < driverlist.length; i++){ %>
+                                    <li>
+                                        
+                                            <div class="contact-info">
+                                                <span class="contact-name text-ellipsis"><%= driverlist[i].first_name%> <%= driverlist[i].last_name%></span>
+                                                
+                                                <span class="contact-date">MBBS, MD</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <% } %>
                                 </ul>
                             </div>
                             <div class="card-footer text-center bg-white">
@@ -396,7 +382,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+				</div>
             </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
@@ -634,64 +620,122 @@
                     return null;
                 }
             }
-
+    
+            // async function updateDashboard() {
+            //     const driverData = await fetchData('/api/getDriverCount');
+            //     const rideData = await fetchData('/api/getRideCount');
+            //     const upcomingRides = await fetchData('/api/getUpcomingRides');
+            //     const driverList = await fetchData('/api/getDrivers');
+    
+            //     if (driverData && rideData && upcomingRides && driverList) {
+            //         document.getElementById('driver-count').innerText = driverData.count;
+            //         document.getElementById('ride-count').innerText = rideData.count;
+            //         document.getElementById('upcoming-ride-count').innerText = upcomingRides.length;
+    
+            //         const upcomingRidesList = document.getElementById('upcoming-rides-list');
+            //         upcomingRidesList.innerHTML = '';
+            //         upcomingRides.forEach(ride => {
+            //             const rideElement = `
+            //                 <tr>
+            //                     <td style="min-width: 200px;">
+            //                         <h5 class="time-title p-0">Passenger Name</h5>
+            //                         <p>${ride.passenger_name}</p>
+            //                     </td>
+            //                     <td>
+            //                         <h5 class="time-title p-0">Ride With</h5>
+            //                         <p>${ride.driver_name}</p>
+            //                     </td>
+            //                     <td>
+            //                         <h5 class="time-title p-0">Timing</h5>
+            //                         <p>${ride.time}</p>
+            //                     </td>
+            //                     <td class="text-right">
+            //                         <a href="/ride" class="btn btn-outline-primary take-btn">Take up</a>
+            //                     </td>
+            //                 </tr>
+            //             `;
+            //             upcomingRidesList.innerHTML += rideElement;
+            //         });
+    
+            //         const driverListElement = document.getElementById('driver-list');
+            //         driverListElement.innerHTML = '';
+            //         driverList.forEach(driver => {
+            //             const driverElement = `
+            //                 <li>
+            //                     <div class="contact-info">
+            //                         <span class="contact-name text-ellipsis">${driver.first_name} ${driver.last_name}</span>
+            //                         <span class="contact-date">8ight</span>
+            //                     </div>
+            //                 </li>
+            //             `;
+            //             driverListElement.innerHTML += driverElement;
+            //         });
+            //     }
+            // }
+    
             async function updateDashboard() {
-                const driverData = await fetchData('/api/getDriverCount');
-                const rideData = await fetchData('/api/getRideCount');
-                const upcomingRides = await fetchData('/api/getUpcomingRides');
-                const driverList = await fetchData('/api/getDrivers');
+    const driverData = await fetchData('/api/getDriverCount');
+    const rideData = await fetchData('/api/getRideCount');
+    const upcomingRides = await fetchData('/api/getUpcomingRides');
+    const driverList = await fetchData('/api/getDrivers');
 
-                if (driverData && rideData && upcomingRides && driverList) {
-                    document.getElementById('driver-count').innerText = driverData.count;
-                    document.getElementById('ride-count').innerText = rideData.count;
-                    document.getElementById('upcoming-ride-count').innerText = upcomingRides.length;
+    if (driverData && rideData && upcomingRides && driverList) {
+        document.getElementById('driver-count').innerText = driverData.count;
+        document.getElementById('ride-count').innerText = rideData.count;
+        document.getElementById('upcoming-ride-count').innerText = upcomingRides.length;
 
-                    const upcomingRidesList = document.getElementById('upcoming-rides-list');
-                    upcomingRidesList.innerHTML = '';
-                    upcomingRides.forEach(ride => {
-                        const rideElement = `
-                            <tr>
-                                <td style="min-width: 200px;">
-                                    <h5 class="time-title p-0">Passenger Name</h5>
-                                    <p>${ride.passenger_name}</p>
-                                </td>
-                                <td>
-                                    <h5 class="time-title p-0">Ride With</h5>
-                                    <p>${ride.driver_name}</p>
-                                </td>
-                                <td>
-                                    <h5 class="time-title p-0">Timing</h5>
-                                    <p>${ride.time}</p>
-                                </td>
-                                <td class="text-right">
-                                    <a href="/ride" class="btn btn-outline-primary take-btn">Take up</a>
-                                </td>
-                            </tr>
-                        `;
-                        upcomingRidesList.innerHTML += rideElement;
-                    });
+        const upcomingRidesList = document.getElementById('upcoming-rides-list');
+        upcomingRidesList.innerHTML = '';
+        upcomingRides.forEach(ride => {
+            const rideElement = `
+                <tr>
+                    <td style="min-width: 200px;">
+                        <h5 class="time-title p-0">Passenger Name</h5>
+                        <p>${ride.passenger_name}</p>
+                    </td>
+                    <td>
+                        <h5 class="time-title p-0">Ride With</h5>
+                        <p>${ride.driver_name}</p>
+                    </td>
+                    <td>
+                        <h5 class="time-title p-0">Timing</h5>
+                        <p>${ride.time}</p>
+                    </td>
+                    <td class="text-right">
+                        <a href="/ride" class="btn btn-outline-primary take-btn">Take up</a>
+                    </td>
+                </tr>
+            `;
+            upcomingRidesList.innerHTML += rideElement;
+        });
 
-                    const driverListElement = document.getElementById('driver-list');
-                    driverListElement.innerHTML = '';
-                    driverList.forEach(driver => {
-                        const driverElement = `
-                            <li>
-                                <div class="contact-info">
-                                    <span class="contact-name text-ellipsis">${driver.first_name} ${driver.last_name}</span>
-                                    <span class="contact-date">MBBS, MD</span>
-                                </div>
-                            </li>
-                        `;
-                        driverListElement.innerHTML += driverElement;
-                    });
-                }
-            }
+        const driverListElement = document.getElementById('driver-list');
+        driverListElement.innerHTML = '';
+        driverList.forEach(driver => {
+            const driverElement = `
+                <li>
+                    <div class="contact-info">
+                        <span class="contact-name text-ellipsis">${driver.first_name} ${driver.last_name}</span>
+                        <span class="contact-date">8ight</span>
+                    </div>
+                </li>
+            `;
+            driverListElement.innerHTML += driverElement;
+        });
+
+        // Get the counts from the DOM
+        const driverCount = parseInt(document.getElementById('driver-count').innerText, 10);
+        const rideCount = parseInt(document.getElementById('ride-count').innerText, 10);
+
+        renderCharts(driverCount, rideCount);
+    }
+}
+
 
             async function renderCharts() {
                 const driverRideData = await fetchData('/api/getCounts');
-                const passengerTotalData = await fetchData('/analytics/passenger-total');
-
-                if (driverRideData && passengerTotalData) {
+    
+                if (driverRideData) {
                     const driverRideChartData = {
                         labels: ['Drivers', 'Rides'],
                         datasets: [{
@@ -700,18 +744,7 @@
                             backgroundColor: ['#3498DB', '#2ECC71'], // Blue for drivers, green for rides
                         }]
                     };
-
-                    const passengerTotalChartData = {
-                        labels: passengerTotalData.map(entry => entry.date),
-                        datasets: [{
-                            label: 'Passenger Total',
-                            data: passengerTotalData.map(entry => entry.total),
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderWidth: 1
-                        }]
-                    };
-
+    
                     const driverRideCtx = document.getElementById('driverRidePieChart').getContext('2d');
                     new Chart(driverRideCtx, {
                         type: 'pie',
@@ -725,36 +758,26 @@
                             }
                         }
                     });
-
-                    const passengerTotalCtx = document.getElementById('passengerTotalLineChart').getContext('2d');
-                    new Chart(passengerTotalCtx, {
-                        type: 'line',
-                        data: passengerTotalChartData,
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
                 }
             }
-
+    
             function handleHover(evt, item, legend) {
-                legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
-                    colors[index] = index === item.index || color.length === 9 ? color : color + '4D';
+                const chart = legend.chart;
+                const index = item.index;
+                chart.data.datasets[0].backgroundColor = chart.data.datasets[0].backgroundColor.map((color, i) => {
+                    return i === index ? color : color + '4D'; // Add transparency to other segments
                 });
-                legend.chart.update();
+                chart.update();
             }
-
+    
             function handleLeave(evt, item, legend) {
-                legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
-                    colors[index] = color.length === 9 ? color.slice(0, -2) : color;
+                const chart = legend.chart;
+                chart.data.datasets[0].backgroundColor = chart.data.datasets[0].backgroundColor.map((color) => {
+                    return color.length === 9 ? color.slice(0, -2) : color; // Remove transparency
                 });
-                legend.chart.update();
+                chart.update();
             }
-
+    
             await updateDashboard();
             await renderCharts();
         });

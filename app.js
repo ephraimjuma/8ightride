@@ -247,16 +247,22 @@ app.get('/api/getCounts', (req, res) => {
       return res.status(500).json({ error: 'Database query error' });
     }
     
+    console.log('Driver Query Result:', driverResult);
+
     con.query(rideQuery, (err, rideResult) => {
       if (err) {
         console.error('Error querying ride count:', err);
         return res.status(500).json({ error: 'Database query error' });
       }
       
+      console.log('Ride Query Result:', rideResult);
+      
       const counts = {
         drivers: driverResult[0].count,
         rides: rideResult[0].count
       };
+
+      console.log('Counts:', counts); // Debug statement to check counts
       res.json(counts);
     });
   });
