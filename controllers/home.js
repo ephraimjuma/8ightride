@@ -116,4 +116,13 @@ router.post('/profile',function(req,res){
     }) ;
 });
 
+router.get('/analytics/passenger-total', async (req, res) => {
+    try {
+        const data = await db.query('SELECT * FROM driver'); // Adjust the query to your database schema
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports =router;

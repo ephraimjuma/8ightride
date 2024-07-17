@@ -42,6 +42,63 @@
         }
         .main_menu .navbar-toggler {
             padding: 5px 10px;
+
+        }
+
+        .theme-checkbox {
+  --toggle-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 6.25em;
+  height: 3.125em;
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, #efefef), color-stop(50%, #2a2a2a)) no-repeat;
+  background: -o-linear-gradient(left, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background: linear-gradient(to right, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background-size: 205%;
+  background-position: 0;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 99em;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--toggle-size);
+}
+
+.theme-checkbox::before {
+  content: "";
+  width: 2.25em;
+  height: 2.25em;
+  position: absolute;
+  top: 0.438em;
+  left: 0.438em;
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, #efefef), color-stop(50%, #2a2a2a)) no-repeat;
+  background: -o-linear-gradient(left, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background: linear-gradient(to right, #efefef 50%, #2a2a2a 50%) no-repeat;
+  background-size: 205%;
+  background-position: 100%;
+  border-radius: 50%;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.theme-checkbox:checked::before {
+  left: calc(100% - 2.25em - 0.438em);
+  background-position: 0;
+}
+
+.theme-checkbox:checked {
+  background-position: 100%;
+}
+
+body {
+            transition: background-color 0.5s ease;
+        }
+        .dark-mode {
+            background-color: #3e3939;
+            color: white;
         }
     </style>
 </head>
@@ -105,6 +162,9 @@
                             </ul>
                         </div>
                         <a class="btn_2 d-none d-lg-block" href="/booking">BOOK RIDE</a>
+
+                        <input type="checkbox" class="theme-checkbox" id="theme-checkbox" onclick="changeTheme()">
+                        
                     </nav>
                 </div>
             </div>
@@ -576,6 +636,17 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
      onload="onGooglePayLoaded()"></script>
 
  <script>
+
+    function changeTheme() {
+            var checkBox = document.getElementById("theme-checkbox");
+            var body = document.body;
+            if (checkBox.checked == true){
+                body.classList.add("dark-mode");
+            } else {
+                body.classList.remove("dark-mode");
+            }
+        }
+
      function onGooglePayLoaded() {
          const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
          const button = paymentsClient.createButton({
