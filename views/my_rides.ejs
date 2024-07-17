@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
-    <title>User Profile</title>
+    <title>My Rides</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
@@ -58,7 +58,9 @@
                         <li class="active">
                             <a href="/user"><i class="fa fa-dashboard"></i> <span>Home Page</span></a>
                         </li>
-                    
+                        <li>
+                            <a href="/user/my_rides"><i class="fa fa-calendar"></i> <span>Ride</span></a>
+                        </li>
                         <li>
                             <a href="/user_profile"><i class="fa fa-user"></i> <span>My Profile</span></a>
                         </li>
@@ -68,7 +70,6 @@
                         <li>
                             <a href="/add_driver"><i class="fa fa-edit"></i> <span>Become a Driver</span></a>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -77,73 +78,44 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-7 col-6">
-                        <h4 class="page-title">My Profile</h4>
-                    </div>
-                </div>
-                <div class="card-box profile-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-view">
-                                <div class="profile-img-wrap">
-                                    <div class="profile-img">
-                                        <a href="#"><img class="avatar" src="/assets/img/user.jpg" alt="User"></a>
-                                    </div>
-                                </div>
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0"><%= user.username %></h3>
-                                                <small class="text-muted"><%= user.email %></small>
-                                                <div class="staff-id">User ID : <%= user.id %></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <ul class="personal-info">
-                                                <li>
-                                                    <span class="title">Phone:</span>
-                                                    <span class="text"><%= user.phone %></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Address:</span>
-                                                    <span class="text"><%= user.address %></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Birthday:</span>
-                                                    <span class="text"><%= user.birthday %></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Gender:</span>
-                                                    <span class="text"><%= user.gender %></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pro-edit">
-                                    <a href="/user/edit_profile" class="edit-icon"><i class="fa fa-pencil"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="page-title">My Rides</h4>
                     </div>
                 </div>
                 <div class="card-box">
-                    <h3 class="card-title">Change Password</h3>
-                    <form action="/user/change-password" method="post">
-                        <div class="form-group">
-                            <label for="current_password">Current Password</label>
-                            <input class="form-control" type="password" name="current_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="new_password">New Password</label>
-                            <input class="form-control" type="password" name="new_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm_password">Confirm New Password</label>
-                            <input class="form-control" type="password" name="confirm_password" required>
-                        </div>
-                        <button class="btn btn-primary btn-rounded" type="submit">Change Password</button>
-                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Service</th>
+                                    <th>Pickup Location</th>
+                                    <th>Dropoff Location</th>
+                                    <th>Pickup Time</th>
+                                    <th>Dropoff Time</th>
+                                    <th>Days of the Week</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.forEach(function(booking) { %>
+                                <tr>
+                                    <td><%= booking.name %></td>
+                                    <td><%= booking.email %></td>
+                                    <td><%= booking.phone %></td>
+                                    <td><%= booking.service %></td>
+                                    <td><%= booking.pickupLocation %></td>
+                                    <td><%= booking.dropoffLocation %></td>
+                                    <td><%= booking.pickupTime %></td>
+                                    <td><%= booking.dropoffTime %></td>
+                                    <td><%= Array.isArray(booking.daysOfWeek) ? booking.daysOfWeek.join(', ') : booking.daysOfWeek %></td>
+                                    <td><%= booking.note %></td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
