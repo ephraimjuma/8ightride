@@ -93,6 +93,7 @@
                                     <th>Pickup Location</th>
                                     <th>Dropoff Location</th>
                                     <th>Pickup Time</th>
+                                    <th>University Arrival Time</th>
                                     <th>Dropoff Time</th>
                                     <th>Days of the Week</th>
                                     <th>Note</th>
@@ -100,18 +101,19 @@
                             </thead>
                             <tbody>
                                 <% bookings.forEach(function(booking) { %>
-                                <tr>
-                                    <td><%= booking.name %></td>
-                                    <td><%= booking.email %></td>
-                                    <td><%= booking.phone %></td>
-                                    <td><%= booking.service %></td>
-                                    <td><%= booking.pickupLocation %></td>
-                                    <td><%= booking.dropoffLocation %></td>
-                                    <td><%= booking.pickupTime %></td>
-                                    <td><%= booking.dropoffTime %></td>
-                                    <td><%= Array.isArray(booking.daysOfWeek) ? booking.daysOfWeek.join(', ') : booking.daysOfWeek %></td>
-                                    <td><%= booking.note %></td>
-                                </tr>
+                                    <tr>
+                                        <td><%= booking.name %></td>
+                                        <td><%= booking.email %></td>
+                                        <td><%= booking.phone %></td>
+                                        <td><%= booking.service %></td>
+                                        <td><%= booking.pickup_location %></td>
+                                        <td><%= booking.dropoff_location %></td>
+                                        <td><%= new Date(booking.pickup_time).toLocaleString() %></td>
+                                        <td><%= new Date(booking.university_arrival_time).toLocaleString() %></td>
+                                        <td><%= new Date(booking.dropoff_time).toLocaleString() %></td>
+                                        <td><%= booking.days_of_week %></td>
+                                        <td><%= booking.note %></td>
+                                    </tr>
                                 <% }); %>
                             </tbody>
                         </table>

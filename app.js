@@ -111,7 +111,6 @@ const processPayment = async (amount, phoneNumber) => {
     res.status(200).send('Callback received');
   });
 
-  const bookings = [];
   app.post('/user/booking', (req, res) => {
     // Extract data from the request body
     const bookingData = {
@@ -127,24 +126,41 @@ const processPayment = async (amount, phoneNumber) => {
         daysOfWeek: req.body.days,
         note: req.body.note
     };
-  
-    console.log("Received booking data:", bookingData); // Log the received data
+    console.log("Received booking data:", bookingData);
 
-    // Save bookingData to the in-memory array
-    bookings.push(bookingData);
+    db.makeBooking(bookingData, (err) => {
+        if (err) {
+            console.error('Error saving booking:', err);
+            return res.status(500).send('Internal Server Error');
+        }
 
-    console.log("Current bookings:", bookings); // Log the current bookings array
-
-    // Redirect to the my_rides page
-    res.redirect('/user/my_rides');
+        console.log("Booking saved successfully.");
+        res.redirect('/user/my_rides');
+    });
 });
 
 app.get('/user/my_rides', (req, res) => {
-  console.log("Rendering my_rides with bookings:", bookings); // Log the bookings array when rendering the page
-  // Render the my_rides.ejs page with the bookings data
-  res.render('my_rides', { bookings });
-});
+    db.getAllBookings((err, bookings) => {
+        if (err) {
+            console.error('Error fetching bookings:', err);
+            return res.status(500).send('Internal Server Error');
+        }
 
+        console.log("Rendering my_rides with bookings:", bookings);
+        res.render('my_rides', { bookings });
+    });
+  });
+  
+  app.get('/user/my_rides', (req, res) => {
+    db.getBookings((err, bookings) => {
+      if (err) {
+        console.error('Error fetching bookings:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      res.render('my_rides', { bookings });
+    });
+  });
 
 app.use(session({
     secret: 'your_secret_key',

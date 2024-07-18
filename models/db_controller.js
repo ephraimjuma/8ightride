@@ -622,4 +622,24 @@ module.exports.getuserdetails = function (username, callback) {
   con.query(query, [username], callback);
 };
 
+module.exports.makeBooking = function (bookingData, callback) {
+  const query = `
+      INSERT INTO bookings 
+      (name, email, phone, service, pickup_location, dropoff_location, pickup_time, dropoff_time, university_arrival_time, days_of_week, note) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  const params = [
+      bookingData.name, bookingData.email, bookingData.phone,
+      bookingData.service, bookingData.pickupLocation, bookingData.dropoffLocation,
+      bookingData.pickupTime, bookingData.dropoffTime, bookingData.universityArrivalTime,
+      bookingData.daysOfWeek, bookingData.note
+  ];
+
+  con.query(query, params, callback);
+};
+
+module.exports.getAllBookings = function (callback) {
+  const query = "SELECT * FROM bookings";
+  con.query(query, callback);
+};
 

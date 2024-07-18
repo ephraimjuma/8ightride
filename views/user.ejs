@@ -481,9 +481,14 @@
             "11": "7:00 - 7:30 PM"
         };
 
+        function submitBookingForm() {
+            // Submit the booking form
+            document.getElementById('bookingForm').submit();
+        }
 
         function confirmBooking() {
     // Gather form data
+    event.preventDefault();
     var name = document.getElementById('inputName').value;
     var email = document.getElementById('inputEmail').value;
     var phone = document.getElementById('inputPhone').value;
