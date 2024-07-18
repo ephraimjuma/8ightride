@@ -100,19 +100,58 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% bookings.forEach(function(booking) { %>
+                                <% 
+                                const serviceMapping = {
+                                    '2': 'Regular Ride',
+                                    '3': 'Carpool',
+                                    '4': 'Express Ride',
+                                    '5': 'Wheelchair Accessible'
+                                };
+                                const locationMapping = {
+                                    '1': 'Nairobi CBD',
+                                    '2': 'Westlands',
+                                    '3': 'Kilimani',
+                                    '4': 'Lavington',
+                                    '5': 'Karen',
+                                    '6': 'Ngong Road',
+                                    '7': 'Parklands',
+                                    '8': 'Muthaiga',
+                                    '9': 'Roysambu',
+                                    '10': 'South B',
+                                    '11': 'South C',
+                                    '12': 'Langata',
+                                    '13': 'Runda',
+                                    '14': 'Gigiri',
+                                    '15': 'Embakasi'
+                                };
+                                const universityMapping = {
+                                    '1': 'University of Nairobi',
+                                    '2': 'Kenyatta University',
+                                    '3': 'Strathmore University',
+                                    '4': 'USIU',
+                                    '5': 'JKUAT',
+                                    '6': 'Daystar University',
+                                    '7': 'Riara University',
+                                    '8': 'Zetech University',
+                                    '9': 'Catholic University'
+                                };
+                                bookings.forEach(function(booking) { %>
                                     <tr>
                                         <td><%= booking.name %></td>
                                         <td><%= booking.email %></td>
                                         <td><%= booking.phone %></td>
-                                        <td><%= booking.service %></td>
-                                        <td><%= booking.pickup_location %></td>
-                                        <td><%= booking.dropoff_location %></td>
-                                        <td><%= new Date(booking.pickup_time).toLocaleString() %></td>
-                                        <td><%= new Date(booking.university_arrival_time).toLocaleString() %></td>
-                                        <td><%= new Date(booking.dropoff_time).toLocaleString() %></td>
+                                        <td><%= serviceMapping[booking.service] || booking.service %></td>
+                                        <td><%= locationMapping[booking.pickup_location] || booking.pickup_location %></td>
+                                        <td><%= universityMapping[booking.dropoff_location] || booking.dropoff_location %></td>
+                                        <td><%= booking.pickup_time %></td>
+                                        <td><%= booking.university_arrival_time %></td>
+                                        <td><%= booking.dropoff_time %></td>
                                         <td><%= booking.days_of_week %></td>
                                         <td><%= booking.note %></td>
+                                        <td>
+                            
+                                            <a href="/user/edit_ride/<%= booking.id %>" class="btn btn-primary btn-sm">Edit Ride</a>
+                                        </td>
                                     </tr>
                                 <% }); %>
                             </tbody>
