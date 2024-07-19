@@ -8,13 +8,11 @@ const multer = require('multer');
 const async = require ('async');
 const nodmailer = require ('nodemailer');
 const axios = require('axios');
-const axios = require('axios');
 const crypto = require ('crypto');
 const expressValidator = require ('express-validator');
 const  sweetalert = require('sweetalert2');
 const app = express();
 
-const con = require('./models/db_controller');
 const con = require('./models/db_controller');
 const bodyParser = require ('body-parser');
 
@@ -23,7 +21,6 @@ const  home = require ('./controllers/home');
 const  signup = require ('./controllers/signup');
 const add_driver = require('./controllers/add_driver');
 const  driver_controller = require ('./controllers/driver_controller');
-const driver_details = require('./controllers/driver_details');
 const driver_details = require('./controllers/driver_details');
 const db = require ('./models/db_controller');
 const reset = require('./controllers/reset_controller');
@@ -38,9 +35,6 @@ const inbox = require ('./controllers/inbox');
 const ride = require ('./controllers/ride');
 const user = require('./controllers/user');
 const booking = require('./controllers/booking');
-
-const booking = require('./controllers/booking');
-
 
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
