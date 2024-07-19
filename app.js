@@ -211,6 +211,7 @@ app.post('/user/update_ride/:id', (req, res) => {
         }
         res.redirect('/user/my_rides');
     });
+  });
 
 app.use(session({
     secret: 'your_secret_key',
@@ -391,5 +392,4 @@ app.use ('/ride',ride);
 app.use('/receipt',receipt);
 app.use('/user', user);
 app.use('/booking', booking);
-app.use('/add_driver', add_driver); 
-
+app.use('/add_driver', add_driver);
