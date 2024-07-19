@@ -621,6 +621,7 @@ module.exports.getuserdetails = function (username, callback) {
   con.query(query, [username], callback);
 };
 
+
 module.exports.makeBooking = function (bookingData, callback) {
   const query = `
       INSERT INTO bookings 
@@ -641,4 +642,5 @@ module.exports.getAllBookings = function (callback) {
   const query = "SELECT * FROM bookings";
   con.query(query, callback);
 };
+
 
