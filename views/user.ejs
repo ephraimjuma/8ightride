@@ -153,7 +153,7 @@
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/complain">Complain</a>
+                                        <a class="nav-link" href="/complain">Missed a Ride</a>
                                     </ul>
                                 </div>
                                 <ul class="nav user-menu float-right">
@@ -482,8 +482,14 @@
         };
 
 
+        function submitBookingForm() {
+            // Submit the booking form
+            document.getElementById('bookingForm').submit();
+        }
+
         function confirmBooking() {
     // Gather form data
+    event.preventDefault();
     var name = document.getElementById('inputName').value;
     var email = document.getElementById('inputEmail').value;
     var phone = document.getElementById('inputPhone').value;

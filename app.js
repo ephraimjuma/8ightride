@@ -112,6 +112,7 @@ const processPayment = async (amount, phoneNumber) => {
   });
 
   const bookings = [];
+
   app.post('/user/booking', (req, res) => {
     // Extract data from the request body
     const bookingData = {
@@ -127,24 +128,82 @@ const processPayment = async (amount, phoneNumber) => {
         daysOfWeek: req.body.days,
         note: req.body.note
     };
-  
-    console.log("Received booking data:", bookingData); // Log the received data
+    
+    console.log("Received booking data:", bookingData);
 
-    // Save bookingData to the in-memory array
-    bookings.push(bookingData);
+    db.makeBooking(bookingData, (err) => {
+        if (err) {
+            console.error('Error saving booking:', err);
+            return res.status(500).send('Internal Server Error');
+        }
 
-    console.log("Current bookings:", bookings); // Log the current bookings array
-
-    // Redirect to the my_rides page
-    res.redirect('/user/my_rides');
+        console.log("Booking saved successfully.");
+        res.redirect('/user/my_rides');
+    });
 });
 
 app.get('/user/my_rides', (req, res) => {
-  console.log("Rendering my_rides with bookings:", bookings); // Log the bookings array when rendering the page
-  // Render the my_rides.ejs page with the bookings data
-  res.render('my_rides', { bookings });
+    db.getAllBookings((err, bookings) => {
+        if (err) {
+            console.error('Error fetching bookings:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log("Rendering my_rides with bookings:", bookings);
+        res.render('my_rides', { bookings });
+    });
+  });
+  
+  app.get('/user/my_rides', (req, res) => {
+    db.getBookings((err, bookings) => {
+      if (err) {
+        console.error('Error fetching bookings:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      res.render('my_rides', { bookings });
+    });
+  });
+  app.get('/user/edit_ride/:id', (req, res) => {
+    const bookingId = req.params.id;
+    // Fetch the booking details from the database
+    con.query('SELECT * FROM bookings WHERE id = ?', [bookingId], (err, results) => {
+        if (err) {
+            console.error('Error fetching booking details:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (!results || results.length === 0) {
+            return res.status(404).send('Booking not found');
+        }
+        const booking = results[0];
+        // Render the edit form with the booking details
+        res.render('edit_ride', { booking });
+    });
 });
 
+app.post('/user/update_ride/:id', (req, res) => {
+    const bookingId = req.params.id;
+    const updatedBooking = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        service: req.body.service,
+        pickup_location: req.body.pickupLocation,
+        dropoff_location: req.body.dropoffLocation,
+        pickup_time: req.body.pickupTime,
+        university_arrival_time: req.body.universityArrivalTime,
+        dropoff_time: req.body.dropoffTime,
+        days_of_week: req.body.days.join(', '),
+        note: req.body.note
+    };
+    // Update the booking details in the database
+    con.query('UPDATE bookings SET ? WHERE id = ?', [updatedBooking, bookingId], (err) => {
+        if (err) {
+            console.error('Error updating booking:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/user/my_rides');
+    });
 
 app.use(session({
     secret: 'your_secret_key',
@@ -202,6 +261,7 @@ app.get('/user_profile', (req, res) => {
 
         // Update session with latest data
         req.user = user;
+
 
         // Render the user_profile.ejs template with the updated user details
         res.render('user_profile', { user });
@@ -290,6 +350,7 @@ app.get('/api/getCounts', (req, res) => {
     });
   });
 });
+
 
 
 // Start the server

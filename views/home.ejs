@@ -222,6 +222,101 @@
                                     <h4>Total Users</h4>
                                 </div>
                                 <canvas id="driverRidePieChart" width="400" height="400"></canvas>
+
+                            </div>
+                        </div>
+                      </div>
+                    
+                      <script>
+                        document.addEventListener('DOMContentLoaded', async function() {
+                          async function fetchData() {
+                            try {
+                              const response = await fetch('/api/getCounts');
+                              if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                              }
+                              const data = await response.json();
+                              console.log('Fetched data:', data); // Log the fetched data to console
+                    
+                              return {
+                                labels: ['Drivers', 'Rides'],
+                                datasets: [{
+                                  label: 'Count',
+                                  data: [data.drivers, data.rides],
+                                  backgroundColor: ['#3498DB', '#2ECC71'], // Blue for drivers, green for rides
+                                }]
+                              };
+                            } catch (error) {
+                              console.error('Error fetching data:', error);
+                              return {
+                                labels: ['Drivers', 'Rides'],
+                                datasets: [{
+                                  label: 'Count',
+                                  data: [0, 0], // Fallback data
+                                  backgroundColor: ['#3498DB', '#2ECC71'],
+                                }]
+                              };
+                            }
+                          }
+                    
+                          function handleHover(evt, item, legend) {
+                            legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+                              colors[index] = index === item.index || color.length === 9 ? color : color + '4D';
+                            });
+                            legend.chart.update();
+                          }
+                    
+                          function handleLeave(evt, item, legend) {
+                            legend.chart.data.datasets[0].backgroundColor.forEach((color, index, colors) => {
+                              colors[index] = color.length === 9 ? color.slice(0, -2) : color;
+                            });
+                            legend.chart.update();
+                          }
+                    
+                          async function renderChart() {
+                            const chartData = await fetchData();
+                            console.log('Chart Data:', chartData); // Log chart data to console
+                            const config = {
+                              type: 'pie',
+                              data: chartData,
+                              options: {
+                                plugins: {
+                                  legend: {
+                                    onHover: handleHover,
+                                    onLeave: handleLeave
+                                  }
+                                }
+                              }
+                            };
+                    
+                            const ctx = document.getElementById('driverRidePieChart').getContext('2d');
+                            new Chart(ctx, config);
+                          }
+                    
+                          renderChart();
+                        });
+                      </script>
+
+					<!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="chart-title">
+									<h4>Passenger In</h4>
+									<div class="float-right">
+										<ul class="chat-user-total">
+											<li><i class="fa fa-circle current-users" aria-hidden="true"></i> CAB</li>
+											<li><i class="fa fa-circle old-users" aria-hidden="true"></i> OPD</li>
+										</ul>
+									</div>
+								</div>	
+								<canvas id="bargraph"></canvas>
+							</div>
+						</div>
+					</div> -->
+				</div>
+                <div id='calendar'></div>
+				<div class="row">
+
                             </div>
                         </div>
                     </div>
@@ -240,6 +335,7 @@
                 <div id='calendar'></div>
                 <br>
                 <div class="row">
+
 					<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 						<div class="card">
 							<div class="card-header">
