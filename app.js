@@ -111,6 +111,8 @@ const processPayment = async (amount, phoneNumber) => {
     res.status(200).send('Callback received');
   });
 
+  const bookings = [];
+
   app.post('/user/booking', (req, res) => {
     // Extract data from the request body
     const bookingData = {
@@ -126,6 +128,7 @@ const processPayment = async (amount, phoneNumber) => {
         daysOfWeek: req.body.days,
         note: req.body.note
     };
+    
     console.log("Received booking data:", bookingData);
 
     db.makeBooking(bookingData, (err) => {
@@ -201,8 +204,6 @@ app.post('/user/update_ride/:id', (req, res) => {
         }
         res.redirect('/user/my_rides');
     });
-});
-
 
 app.use(session({
     secret: 'your_secret_key',
@@ -260,6 +261,7 @@ app.get('/user_profile', (req, res) => {
 
         // Update session with latest data
         req.user = user;
+
 
         // Render the user_profile.ejs template with the updated user details
         res.render('user_profile', { user });
@@ -348,6 +350,7 @@ app.get('/api/getCounts', (req, res) => {
     });
   });
 });
+
 
 
 // Start the server
