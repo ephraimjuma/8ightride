@@ -250,7 +250,6 @@ module.exports.rejectDriver = function (id, callback) {
       "')";
     con.query(query, callback);
   };
-  
 
   module.exports.getallride = function (callback) {
     var query = "select * from ride";

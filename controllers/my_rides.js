@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const Booking = require('/booking'); // Adjust the path to your Booking model
+const booking = require('./controllers/booking');
 //const isAuthenticated = require('./middleware/isAuthenticated'); // Middleware to check if the user is authenticated
 
 // middleware/isAuthenticated.js

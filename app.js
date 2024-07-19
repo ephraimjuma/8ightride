@@ -8,11 +8,13 @@ const multer = require('multer');
 const async = require ('async');
 const nodmailer = require ('nodemailer');
 const axios = require('axios');
+const axios = require('axios');
 const crypto = require ('crypto');
 const expressValidator = require ('express-validator');
 const  sweetalert = require('sweetalert2');
 const app = express();
 
+const con = require('./models/db_controller');
 const con = require('./models/db_controller');
 const bodyParser = require ('body-parser');
 
@@ -21,6 +23,7 @@ const  home = require ('./controllers/home');
 const  signup = require ('./controllers/signup');
 const add_driver = require('./controllers/add_driver');
 const  driver_controller = require ('./controllers/driver_controller');
+const driver_details = require('./controllers/driver_details');
 const driver_details = require('./controllers/driver_details');
 const db = require ('./models/db_controller');
 const reset = require('./controllers/reset_controller');
@@ -36,13 +39,18 @@ const ride = require ('./controllers/ride');
 const user = require('./controllers/user');
 const booking = require('./controllers/booking');
 
+const booking = require('./controllers/booking');
+
 
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
@@ -111,9 +119,11 @@ const processPayment = async (amount, phoneNumber) => {
     res.status(200).send('Callback received');
   });
 
+  const bookings = [];
   app.post('/user/booking', (req, res) => {
     // Extract data from the request body
     const bookingData = {
+        userId: req.user._id, // Ensure req.user is correctly set
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
@@ -123,7 +133,7 @@ const processPayment = async (amount, phoneNumber) => {
         pickupTime: req.body.pickupTime,
         schoolArrivalTime: req.body.schoolArrivalTime,
         dropoffTime: req.body.dropoffTime,
-        daysOfWeek: req.body.days,
+        daysOfWeek: req.body.days, // Adjusted to match the name attribute
         note: req.body.note
     };
     console.log("Received booking data:", bookingData);
