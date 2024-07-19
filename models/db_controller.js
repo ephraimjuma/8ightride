@@ -17,6 +17,8 @@ con.connect(function (err) {
   }
 });
 
+module.exports = con;
+
 module.exports.signup = function (username, email, password, status, callback) {
     var query =
       "INSERT INTO `users`(`username`,`email`,`password`,`email_status`) VALUES ('" +
@@ -68,38 +70,26 @@ module.exports.signup = function (username, email, password, status, callback) {
     con.query(query, callback);
   }
 
-  module.exports.add_driver = function (
-    first_name,
-    last_name,
-    email,
-    dob,
-    gender,
-    address,
-    phone,
-    image,
-    callback
-  ) {
-    var query =
-      "INSERT INTO `driver`(`first_name`,`last_name`,`email`,`dob`,`gender`,`address`,`phone`,`image`) values ('" +
-      first_name +
-      "','" +
-      last_name +
-      "','" +
-      email +
-      "','" +
-      dob +
-      "','" +
-      gender +
-      "','" +
-      address +
-      "','" +
-      phone +
-      "','" +
-      image +
-      "')";
-    con.query(query, callback);
-    console.log(query);
-  };
+module.exports.add_driver = function (
+  first_name,
+  last_name,
+  email,
+  phone,
+  dob,
+  gender,
+  address,
+  image,
+  id_passport,
+  driving_licence,
+  certificate_of_good_conduct,
+  kcse_certificate,
+  callback
+) {
+  var query = "INSERT INTO `driver`(`first_name`,`last_name`,`email`,`phone`,`dob`,`gender`,`address`,`image`,`id_passport`,`driving_licence`,`certificate_of_good_conduct`,`kcse_certificate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  var values = [first_name, last_name, email, phone, dob, gender, address, image, id_passport, driving_licence, certificate_of_good_conduct, kcse_certificate];
+  con.query(query, values, callback);
+};
+
 
   module.exports.getAllDriver = function (callback) {
     var query = "select * from driver";
@@ -153,6 +143,16 @@ module.exports.signup = function (username, email, password, status, callback) {
     con.query(query, callback);
     // console.log(query);
   };
+
+  module.exports.acceptDriver = function (id, callback) {
+    var query = "UPDATE driver SET status = 'accepted' WHERE id = ?";
+    con.query(query, [id], callback);
+};
+
+module.exports.rejectDriver = function (id, callback) {
+    var query = "UPDATE driver SET status = 'rejected' WHERE id = ?";
+    con.query(query, [id], callback);
+};
 
   module.exports.editEmp = function (
     id,
@@ -233,7 +233,7 @@ module.exports.signup = function (username, email, password, status, callback) {
     callback
   ) {
     var query =
-      "insert into ride (passenger_name,department,driver_name,date,time,email,phone) values ('" +
+      "INSERT INTO ride (passenger_name, department, driver_name, date, time, email, phone) VALUES ('" +
       p_name +
       "','" +
       department +
@@ -615,9 +615,32 @@ module.exports.signup = function (username, email, password, status, callback) {
 
     con.query(query, params, callback);
 };
+
 module.exports.getuserdetails = function (username, callback) {
   var query = "SELECT * FROM users WHERE username = ?";
   con.query(query, [username], callback);
+};
+
+
+module.exports.makeBooking = function (bookingData, callback) {
+  const query = `
+      INSERT INTO bookings 
+      (name, email, phone, service, pickup_location, dropoff_location, pickup_time, dropoff_time, university_arrival_time, days_of_week, note) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  const params = [
+      bookingData.name, bookingData.email, bookingData.phone,
+      bookingData.service, bookingData.pickupLocation, bookingData.dropoffLocation,
+      bookingData.pickupTime, bookingData.dropoffTime, bookingData.universityArrivalTime,
+      bookingData.daysOfWeek, bookingData.note
+  ];
+
+  con.query(query, params, callback);
+};
+
+module.exports.getAllBookings = function (callback) {
+  const query = "SELECT * FROM bookings";
+  con.query(query, callback);
 };
 
 

@@ -7,11 +7,15 @@ const multer = require('multer');
 //const path = require ('path');
 const async = require ('async');
 const nodmailer = require ('nodemailer');
+const axios = require('axios');
+const axios = require('axios');
 const crypto = require ('crypto');
 const expressValidator = require ('express-validator');
 const  sweetalert = require('sweetalert2');
 const app = express();
 
+const con = require('./models/db_controller');
+const con = require('./models/db_controller');
 const bodyParser = require ('body-parser');
 
 const  login = require ('./controllers/login');
@@ -19,6 +23,8 @@ const  home = require ('./controllers/home');
 const  signup = require ('./controllers/signup');
 const add_driver = require('./controllers/add_driver');
 const  driver_controller = require ('./controllers/driver_controller');
+const driver_details = require('./controllers/driver_details');
+const driver_details = require('./controllers/driver_details');
 const db = require ('./models/db_controller');
 const reset = require('./controllers/reset_controller');
 const set = require('./controllers/set_controller');
@@ -33,18 +39,179 @@ const ride = require ('./controllers/ride');
 const user = require('./controllers/user');
 const booking = require('./controllers/booking');
 
+const booking = require('./controllers/booking');
+
 
 var receipt = require ('./controllers/receipt');
 var chat = require ('./controllers/chat');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-
-app.use(express.static('./public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+const consumerKey = '9Rgi1GIQWDFIfJ2uwoY6V8pzFuJztFMqN0d14qkpWsipt1Y5';
+const consumerSecret = 'ArbW1Kz1IepbL7vsTyfqYum2zHO15pjWF8A5kA9rfcMTNBjr0eKGVJuKAL9Tns4C';
+const shortCode = '174379';
+const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+const callbackURL = 'https://mydomain.com/path';
+
+const getAccessToken = async () => {
+  const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
+  const response = await axios.get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
+    headers: {
+      Authorization: `Basic ${auth}`,
+    },
+  });
+  return response.data.access_token;
+};
+
+const processPayment = async (amount, phoneNumber) => {
+    const accessToken = await getAccessToken();
+    const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
+    const password = Buffer.from(`${shortCode}${passkey}${timestamp}`).toString('base64');
+  
+    const response = await axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
+      BusinessShortCode: shortCode,
+      Password: password,
+      Timestamp: timestamp,
+      TransactionType: 'CustomerPayBillOnline',
+      Amount: amount,
+      PartyA: phoneNumber,
+      PartyB: shortCode,
+      PhoneNumber: phoneNumber,
+      CallBackURL: callbackURL,
+      AccountReference: 'Uniride Payment',
+      TransactionDesc: 'Payment for Uniride services',
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  
+    return response.data;
+  };
+  
+  app.post('/api/payment/process', async (req, res) => {
+    const { amount, phone } = req.body;
+    console.log('Received amount:', amount, 'and phone:', phone); // Debugging line
+    try {
+      const paymentResponse = await processPayment(amount, phone);
+      console.log('Payment response:', paymentResponse); // Debugging line
+      res.json(paymentResponse);
+    } catch (error) {
+      console.error('Error processing payment:', error.response ? error.response.data : error.message); // Detailed error
+      res.status(500).json({ error: 'Payment processing failed', details: error.response ? error.response.data : error.message });
+    }
+  });
+  
+  
+  app.post('/api/payment/callback', (req, res) => {
+    const callbackData = req.body;
+    // Process the callback data
+    console.log('Callback Data:', callbackData);
+    res.status(200).send('Callback received');
+  });
+
+  app.post('/user/booking', (req, res) => {
+    // Extract data from the request body
+    const bookingData = {
+        userId: req.user._id, // Ensure req.user is correctly set
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        service: req.body.service,
+        pickupLocation: req.body.pickupLocation,
+        dropoffLocation: req.body.dropoffLocation,
+        pickupTime: req.body.pickupTime,
+        schoolArrivalTime: req.body.schoolArrivalTime,
+        dropoffTime: req.body.dropoffTime,
+        daysOfWeek: req.body.days, // Adjusted to match the name attribute
+        note: req.body.note
+    };
+    
+    console.log("Received booking data:", bookingData);
+
+    db.makeBooking(bookingData, (err) => {
+        if (err) {
+            console.error('Error saving booking:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log("Booking saved successfully.");
+        res.redirect('/user/my_rides');
+    });
+});
+
+app.get('/user/my_rides', (req, res) => {
+    db.getAllBookings((err, bookings) => {
+        if (err) {
+            console.error('Error fetching bookings:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log("Rendering my_rides with bookings:", bookings);
+        res.render('my_rides', { bookings });
+    });
+  });
+  
+  app.get('/user/my_rides', (req, res) => {
+    db.getBookings((err, bookings) => {
+      if (err) {
+        console.error('Error fetching bookings:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      res.render('my_rides', { bookings });
+    });
+  });
+  app.get('/user/edit_ride/:id', (req, res) => {
+    const bookingId = req.params.id;
+    // Fetch the booking details from the database
+    con.query('SELECT * FROM bookings WHERE id = ?', [bookingId], (err, results) => {
+        if (err) {
+            console.error('Error fetching booking details:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (!results || results.length === 0) {
+            return res.status(404).send('Booking not found');
+        }
+        const booking = results[0];
+        // Render the edit form with the booking details
+        res.render('edit_ride', { booking });
+    });
+});
+
+app.post('/user/update_ride/:id', (req, res) => {
+    const bookingId = req.params.id;
+    const updatedBooking = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        service: req.body.service,
+        pickup_location: req.body.pickupLocation,
+        dropoff_location: req.body.dropoffLocation,
+        pickup_time: req.body.pickupTime,
+        university_arrival_time: req.body.universityArrivalTime,
+        dropoff_time: req.body.dropoffTime,
+        days_of_week: req.body.days.join(', '),
+        note: req.body.note
+    };
+    // Update the booking details in the database
+    con.query('UPDATE bookings SET ? WHERE id = ?', [updatedBooking, bookingId], (err) => {
+        if (err) {
+            console.error('Error updating booking:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/user/my_rides');
+    });
+  });
 
 app.use(session({
     secret: 'your_secret_key',
@@ -78,7 +245,7 @@ app.use((req, res, next) => {
             gender: 'Male',
             id: '1',
             createdAt: new Date(),
-            profilePicture: 'https://t3.ftcdn.net/jpg/01/97/11/76/240_F_197117649_MYVpw74AYw4FmgDGC1tyM7G1xMavIShU.jpg'
+            profilePicture: null 
         };
     }
     next();
@@ -100,18 +267,40 @@ app.get('/user_profile', (req, res) => {
         // Assuming results[0] contains the updated user details
         const user = results[0];
 
+        // Update session with latest data
+        req.user = user;
+
+
         // Render the user_profile.ejs template with the updated user details
         res.render('user_profile', { user });
     });
 });
 
 
+// Route to display edit profile page
 app.get('/user/edit_profile', (req, res) => {
-    // Render the edit_profile.ejs template
-    res.render('edit_profile', { user: req.user });
+    // Fetch the latest user details from the database
+    db.getuserdetails(req.user.username, (err, results) => {
+        if (err) {
+            console.error('Error fetching user details:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        if (!results || results.length === 0) {
+            console.error('No user found for username:', req.user.username);
+            return res.status(404).send('User Not Found');
+        }
+
+        // Assuming results[0] contains the updated user details
+        const user = results[0];
+
+        // Update session with latest data
+        req.user = user;
+
+        // Render the edit_profile.ejs template with the updated user details
+        res.render('edit_profile', { user });
+    });
 });
-
-
 app.post('/user/update_profile', upload.single('profilePicture'), (req, res) => {
     const updatedUser = {
         username: req.body.username,
@@ -122,8 +311,8 @@ app.post('/user/update_profile', upload.single('profilePicture'), (req, res) => 
         gender: req.body.gender,
         id: req.user.id,
         createdAt: req.user.createdAt,
-        profilePicture: req.file ? req.file.filename : req.user.profilePicture
-    };
+        profilePicture: req.file ? `/uploads/${req.file.filename}` : req.user.profilePicture  
+      };
 
      // Save updated user to the database
      db.updateUser(req.user.id, updatedUser, (err) => {
@@ -135,20 +324,61 @@ app.post('/user/update_profile', upload.single('profilePicture'), (req, res) => 
         // Simulate saving to session
         req.user = updatedUser;
 
-        res.redirect('./user_profile');
+        res.redirect('/user_profile?success=Profile updated successfully');    });
+});
+
+// Route to get the counts
+app.get('/api/getCounts', (req, res) => {
+  const driverQuery = 'SELECT COUNT(*) as count FROM ride WHERE driver_name IS NOT NULL';
+  const rideQuery = 'SELECT COUNT(*) as count FROM ride';
+  
+  con.query(driverQuery, (err, driverResult) => {
+    if (err) {
+      console.error('Error querying driver count:', err);
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    
+    console.log('Driver Query Result:', driverResult);
+
+    con.query(rideQuery, (err, rideResult) => {
+      if (err) {
+        console.error('Error querying ride count:', err);
+        return res.status(500).json({ error: 'Database query error' });
+      }
+      
+      console.log('Ride Query Result:', rideResult);
+      
+      const counts = {
+        drivers: driverResult[0].count,
+        rides: rideResult[0].count
+      };
+
+      console.log('Counts:', counts); // Debug statement to check counts
+      res.json(counts);
     });
+  });
 });
 
-var server =app.listen(3000 , function(){
 
-    console.log('Server Started');
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
 
+// Middleware to check if the user is authenticated
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
 
 app.use('/login' ,login);
 app.use('/home' , home);
 app.use('/signup' , signup);
 app.use('/driver', driver_controller);
+app.use('/driver/details', driver_details); 
 app.use('/resetpassword' ,reset);
 app.use('/setpassword',set);
 app.use('/employee',employee);
@@ -162,4 +392,4 @@ app.use ('/ride',ride);
 app.use('/receipt',receipt);
 app.use('/user', user);
 app.use('/booking', booking);
-app.use('/add_driver', add_driver); 
+app.use('/add_driver', add_driver);
